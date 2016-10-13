@@ -9,6 +9,8 @@ last_fs_num = size(last_fs,1);
 sample_num = size(gene,1);
 
 freqent = 1;
+
+% if union_set contains any subsets( only need to check subset size of k-1) that is not frequent. 
 for i = 1:k
     tem_set = union_set;
     tem_set(i) = [];
@@ -19,6 +21,7 @@ for i = 1:k
     end   
 end
 
+% union_set doesn't contain any rare subsets, check if its support larger than threshold support
 if freqent == 1 % support check
     count = 0;
     for i = 1:sample_num

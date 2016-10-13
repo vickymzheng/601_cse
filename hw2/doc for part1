@@ -11,7 +11,7 @@ col #2 ~ #101 are gene info, and they can only be UP or Down. The last col is de
 considered as a item, and there are 4 types of disease.
 
 Since the gene types and disease types are of very limited kinds, I use integers to code them.
-UP - 1, Down - 1, 
+UP - 1, Down - 0, 
 ALL - 1, AML -2, Breast Cancer -3, Colon Cancer -4
 
 So the sample-item matrix is of dimension 100*101, with entries of value in [0,1,2,3,4]. no need to use string comparisons.
