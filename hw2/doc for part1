@@ -1,0 +1,37 @@
+Luting- about part 1
+time: 10:15 pm @ 10/12
+
+preprocess:
+
+The given input txt file can be seen as a sample x itemset matrix
+each row is a record as a itemset, or transaction in the beer-milk example
+the matrix is 100*102, representing 100 samples and 101 items( the first col is the sample ID)
+
+col #2 ~ #101 are gene info, and they can only be UP or Down. The last col is deseae, accoring to Piazza, it should also be 
+considered as a item, and there are 4 types of disease.
+
+Since the gene types and disease types are of very limited kinds, I use integers to code them.
+UP - 1, Down - 1, 
+ALL - 1, AML -2, Breast Cancer -3, Colon Cancer -4
+
+So the sample-item matrix is of dimension 100*101, with entries of value in [0,1,2,3,4]. no need to use string comparisons.
+
+Then I give the items a sequence,
+G1_up, G1_down, G2_up, G2_down, ..., G100_up, G100_down, ALL, AML, Breast Cancer, Colon Cancer
+from 1 to 204.
+
+so itemsets only contain the indice of items. if an itemset contain 3, it means G2_up is there.
+
+frequent itemsets data structure:
+In my code, I use fis, a cell array to record all frequent itemsets of different size.
+fis{1}: frequent itemsets of  size 1
+        a n1*1 matrix, n1 is the number of those frequent itemsets of  size 1
+        
+fis{2}: frequent itemsets of  size 2
+        a n2*2 matrix, n2 is the number of those frequent itemsets of  size 2, and each row is an frequent itemset.
+        
+....
+
+the size of fis, k ,shows the number of item of the largest frequent itemsets
+    
+This way, all the frequent itemsets are stored, and its easy to get the number of frequent itemsets of size i, 1<= i <= k
