@@ -102,10 +102,14 @@ def hw2(inputFileName):
 					secondNum = frequentUnlabeledItemSetsL1[j]
 					thirdNum = frequentUnlabeledItemSetsL1[k]
 					if (firstNum in sample) and (secondNum in sample) and (thirdNum in sample) and (firstNum != secondNum) and (firstNum != thirdNum) and (secondNum != thirdNum):
-						mapKey = str(firstNum) + " " + str(secondNum) + " " str(thirdNum)
-						if mapKey in frequencyUnlabeledItemSetsL2:
-							frequencyUnlabeledItemSetsL2[mapKey]+=1
+						mapKey = str(firstNum) + " " + str(secondNum) + " " + str(thirdNum)
+						if mapKey in frequencyUnlabeledItemSetsL3:
+							frequencyUnlabeledItemSetsL3[mapKey]+=1
 						else: 
-							frequencyUnlabeledItemSetsL2[mapKey] = 1
+							frequencyUnlabeledItemSetsL3[mapKey] = 1
+
+	for x in frequencyUnlabeledItemSetsL3:
+		if frequencyUnlabeledItemSetsL3[x] >= support:
+			print x
 hw2("gene_expression.txt")
 
