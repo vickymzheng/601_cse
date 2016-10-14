@@ -39,7 +39,7 @@ flag = 1;
 while flag == 1
     k = k + 1; % first round k =2, need to get fs with k =2
     last_fs = fis{k-1};
-    fitem_num = size(fis{1},1);
+    fitem_num = size(last_fs,1);
     fi = [];
     
     for is1 = 1:fitem_num-1
