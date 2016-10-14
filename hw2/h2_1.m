@@ -4,7 +4,7 @@
 % 4 disease 201,202,203,204
 clear all
 load('dataset.mat');
-support = 0.3;
+support = 0.7;
 fi = [];    % current round of frequent itemset of size k
 fis = {};   % cell array, each cell is the frequent itemset of size k
 
