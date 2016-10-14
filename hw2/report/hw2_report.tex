@@ -1,147 +1,180 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Short Sectioned Assignment
-% LaTeX Template
-% Version 1.0 (5/5/12)
-%
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
-%
-% Original author:
-% Frits Wenneker (http://www.howtotex.com)
-%
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Use only LaTeX2e, calling the article.cls class and 12-point type.
 
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-%----------------------------------------------------------------------------------------
+\documentclass[12pt]{article}
 
-\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+% Users of the {thebibliography} environment or BibTeX should use the
+% scicite.sty package, downloadable from *Science* at
+% www.sciencemag.org/about/authors/prep/TeX_help/ .
+% This package should properly format in-text
+% reference calls and reference-list numbers.
 
-\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
-\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
-\usepackage[english]{babel} % English language/hyphenation
-\usepackage{amsmath,amsfonts,amsthm} % Math packages
+%\usepackage{scicite}
 
-\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+% Use times if you have the font installed; otherwise, comment out the
+% following line.
 
-\usepackage{sectsty} % Allows customizing section commands
-\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{lettrine}
+% The preamble here sets up a lot of new/revised commands and
+% environments.  It's annoying, but please do *not* try to strip these
+% out into a separate .sty file (which could lead to the loss of some
+% information when we convert the file to other formats).  Instead, keep
+% them in the preamble of your main LaTeX source file.
 
-\usepackage{fancyhdr} % Custom headers and footers
-\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
-\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
-\fancyfoot[L]{} % Empty left footer
-\fancyfoot[C]{} % Empty center footer
-\fancyfoot[R]{\thepage} % Page numbering for right footer
-\renewcommand{\headrulewidth}{0pt} % Remove header underlines
-\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
-\setlength{\headheight}{13.6pt} % Customize the height of the header
 
-\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
-\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
-\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% The following parameters seem to provide a reasonable page setup.
 
-\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+\topmargin 0.0cm
+\oddsidemargin 0.2cm
+\textwidth 16cm 
+\textheight 21cm
+\footskip 1.0cm
 
-%----------------------------------------------------------------------------------------
-%	TITLE SECTION
-%----------------------------------------------------------------------------------------
 
-\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+%The next command sets up an environment for the abstract to your paper.
 
-\title{	
-\normalfont \normalsize 
-\textsc{university, school or department name} \\ [25pt] % Your university, school and/or department name(s)
-\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
-\huge Assignment Title \\ % The assignment title
-\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+\newenvironment{sciabstract}{%
+\begin{quote} \bf}
+{\end{quote}}
+
+
+% If your reference list includes text notes as well as references,
+% include the following line; otherwise, comment it out.
+
+\renewcommand\refname{References and Notes}
+
+% The following lines set up an environment for the last note in the
+% reference list, which commonly includes acknowledgments of funding,
+% help, etc.  It's intended for users of BibTeX or the {thebibliography}
+% environment.  Users who are hand-coding their references at the end
+% using a list environment such as {enumerate} can simply add another
+% item at the end, and it will be numbered automatically.
+
+\newcounter{lastnote}
+\newenvironment{scilastnote}{%
+\setcounter{lastnote}{\value{enumiv}}%
+\addtocounter{lastnote}{+1}%
+\begin{list}%
+{\arabic{lastnote}.}
+{\setlength{\leftmargin}{.22in}}
+{\setlength{\labelsep}{.5em}}}
+{\end{list}}
+
+
+% Include your paper's title here
+
+\title{ Apriori implementation using Matlab} 
+
+
+% Place the author information here.  Please hand-code the contact
+% information and notecalls; do *not* use \footnote commands.  Let the
+% author contact information appear immediately below the author names
+% as shown.  We would also prefer that you don't change the type-size
+% settings shown here.
+
+\author
+{Luting Chen  50133507,
+	Yuze Liu 50207903, 
+	Vicky Zheng  50037709 \\
+%\normalsize{$^{1}$Department of Chemistry, University of Wherever,}\\
+%\normalsize{An Unknown Address, Wherever, ST 00000, USA}\\
+%\normalsize{$^{2}$Another Unknown Address, Palookaville, ST 99999, USA}\\
+\\
+%\normalsize{$^\ast$To whom correspondence should be addressed; E-mail:  jsmith@wherever.edu.}
 }
 
-\author{John Smith} % Your name
+% Include the date command, but leave its argument blank.
 
-\date{\normalsize\today} % Today's date or a custom date
+\date{}
+%%%%%%%%%%%%%%%%% END OF PREAMBLE %%%%%%%%%%%%%%%%
+\begin{document} 
 
-\begin{document}
+% Double-space the manuscript.
 
-\maketitle % Print the title
+\baselineskip24pt
 
-%----------------------------------------------------------------------------------------
-%	PROBLEM 1
-%----------------------------------------------------------------------------------------
+% Make the title.
 
-\section{Problem title}
+\maketitle 
+% Place your abstract within the special {sciabstract} environment.
 
-\lipsum[2] % Dummy text
+%\begin{sciabstract}
+ % This document presents a number of hints about how to set up your
+  %{\it Science\/} paper in \LaTeX\ .  We provide a template file,
+  %\texttt{scifile.tex}, that you can use to set up the \LaTeX\ source
+  %for your article.  An example of the style is the special
+  %\texttt{\{sciabstract\}} environment used to set up the abstract you
+  %see here.
+%\end{sciabstract}
+% In setting up this template for *Science* papers, we've used both
+% the \section* command and the \paragraph* command for topical
+% divisions.  Which you use will of course depend on the type of paper
+% you're writing.  Review Articles tend to have displayed headings, for
+% which \section* is more appropriate; Research Articles, when they have
+% formal topical divisions at all, tend to signal them with bold text
+% that runs into the paragraph, for which \paragraph* is the right
+% choice.  Either way, use the asterisk (*) modifier, as shown, to
+% suppress numbering.
 
-\begin{align} 
-\begin{split}
-(x+y)^3 	&= (x+y)^2(x+y)\\
-&=(x^2+2xy+y^2)(x+y)\\
-&=(x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3)\\
-&=x^3+3x^2y+3xy^2+y^3
-\end{split}					
-\end{align}
+\section*{Introduction}
+The apriori algorithm is used to determine association rules. In this homework, we implemented the apriori algorithm by using Matlab. The dataset we used the algorithm on is gene data. The applications of this are straight forward: with association rules we can see how genes relate to each other and what the relation between genes can tell us about the data. 
 
-Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
+\section*{Data Preprocesing}
+\noindent The data provided is a .txt file that contains a 100 by 102 matrix. There are 100 samples each corresponding to the genes of a patient with a disease. The diseases are: ALL, AML, Breast Cancer and Colon Cancer. In order to optimize our program, we converted each of these values into integers: 1,2,3,4 respectively. The data set also gives us a sequence of 100 genes labeled as either up or down. Each gene at index i is treated as 1 if it is up and 0 if it is down. We did this to optimize our program by having fewer string comparsions since integer comparisons are much faster. 
 
-%------------------------------------------------
+\section*{Implementation}
+\noindent For this homework, we choose to use Matlab because our input data is a matrix. Matlab has helpful functions for matrix manipulation like determining whether a set of numbers is in a row of the matrix. It also has helpful functions such as the union of two sets which helped us do the pruning necessary for an efficient apriori algorithm.
 
-\subsection{Heading on level 2 (subsection)}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
-\begin{align}
-A = 
-\begin{bmatrix}
-A_{11} & A_{21} \\
-A_{21} & A_{22}
-\end{bmatrix}
-\end{align}
-Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+\section*{Conclusion}
 
-%------------------------------------------------
+In conclusion, BioGalaxy can have reasonably timed queries since having multiple fact tables allows for fewer joins. Our schema also supports many to many relationships, temporal data, and hierarchal querying.
 
-\subsubsection{Heading on level 3 (subsubsection)}
+% Your references go at the end of the main text, and before the
+% figures.  For this document we've used BibTeX, the .bib file
+% scibib.bib, and the .bst file Science.bst.  The package scicite.sty
+% was included to format the reference numbers according to *Science*
+% style.
 
-\lipsum[3] % Dummy text
+\bibliography{scibib}
 
-\paragraph{Heading on level 4 (paragraph)}
+\bibliographystyle{Science}
 
-\lipsum[6] % Dummy text
+\begin{thebibliography}{9}
+	\bibitem{latexcompanion} 
+	Liangjiang Wang, and Aidong Zhang 
+	\textit{BioStar Models of clinical and genomic data for biomedical data warehouse design}. 
+	
+	
+	\bibitem{knuthwebsite} 
+	Wide Skills
+	\\\texttt{$http://www.wideskills.com/data-warehousing/dimensional-data-modelling$}
+	
+	\bibitem{Wiki Pedia Website} 
+	Wiki Pedia Website
+	\\\texttt{$https://en.wikipedia.org/wiki/Fact_constellation$}
+\end{thebibliography}
 
-%----------------------------------------------------------------------------------------
-%	PROBLEM 2
-%----------------------------------------------------------------------------------------
-
-\section{Lists}
-
-%------------------------------------------------
-
-\subsection{Example of list (3*itemize)}
-\begin{itemize}
-	\item First item in a list 
-		\begin{itemize}
-		\item First item in a list 
-			\begin{itemize}
-			\item First item in a list 
-			\item Second item in a list 
-			\end{itemize}
-		\item Second item in a list 
-		\end{itemize}
-	\item Second item in a list 
-\end{itemize}
-
-%------------------------------------------------
-
-\subsection{Example of list (enumerate)}
-\begin{enumerate}
-\item First item in a list 
-\item Second item in a list 
-\item Third item in a list
-\end{enumerate}
-
-%----------------------------------------------------------------------------------------
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
