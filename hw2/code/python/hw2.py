@@ -64,4 +64,12 @@ def hw2(inputFileName):
 			geneLabel = convertIntToLabel(i)
 			frequentLabeledItemSetsL1[geneLabel] = frequencyCounter[i]
 
+	for i in range (0,len(frequencyCounter)):
+		if i not in frequentUnlabeledItemSetsL1:
+			continue
+		for j in range (0,len(frequencyCounter)):
+			if j not in frequentUnlabeledItemSetsL1:
+				continue
+			
+
 hw2("gene_expression.txt")
