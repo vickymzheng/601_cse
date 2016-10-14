@@ -4,8 +4,10 @@ def hw2(inputFileName):
 	fileContents = []
 	while (line != ""):
 		unLabeledData = line.split()
+		#Pop off sample label
 		unLabeledData.pop(0)
 		if len(unLabeledData) == 102:
+			#When you split "breast cancer", it makes it two entries
 			unLabeledData.pop()
 		fileContents.append(unLabeledData)
 		line = toRead.readline()
@@ -26,7 +28,36 @@ def hw2(inputFileName):
 			elif fileContents[i][j] == "Colon":
 				fileContents[i][j] = 203
 				
-	
+	#Creates an array that holds 204 0's initally
+	frequencyCounter = [0]*204 
+	for x in fileContents:
+		for y in x:
+			frequencyCounter[y]+=1
 
+	support = 30
+	frequentUnlabeledItemSetsL1 = []
+	frequentLabeledItemSetsL1 = []
+
+	for i in range(0, len(frequencyCounter)):
+		if frequencyCounter[i] >= support:
+			frequentUnlabeledItemSetsL1.append(i)
+			geneLabel = "G" + str(i/2 + 1) + "_"
+			if (i%2 == 1 and i < 200):
+				geneLabel+="Down"
+			elif (i%2 == 0 and i < 200):
+				geneLabel+="UP"
+			elif (i == 200):
+				geneLabel = "ALL"
+			elif (i == 201):
+				geneLabel = "AML"
+			elif (i == 202):
+				geneLabel = "Breast Cancer"
+			elif (i == 203):
+				geneLabel = "Colon Cancer"
+			else:
+				print "Something went wrong"
+			frequentLabeledItemSetsL1.append(geneLabel)
+			
+	print frequentLabeledItemSetsL1
 
 hw2("gene_expression.txt")
