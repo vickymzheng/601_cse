@@ -36,7 +36,7 @@ def hw2(inputFileName):
 
 	support = 30
 	frequentUnlabeledItemSetsL1 = []
-	frequentLabeledItemSetsL1 = []
+	frequentLabeledItemSetsL1 = {}
 
 	for i in range(0, len(frequencyCounter)):
 		if frequencyCounter[i] >= support:
@@ -56,8 +56,9 @@ def hw2(inputFileName):
 				geneLabel = "Colon Cancer"
 			else:
 				print "Something went wrong"
-			frequentLabeledItemSetsL1.append(geneLabel)
+			frequentLabeledItemSetsL1[geneLabel] = frequencyCounter[i]
 			
-	print frequentLabeledItemSetsL1
+	print frequentLabeledItemSetsL1["G1_UP"]
+	print frequencyCounter[0]
 
 hw2("gene_expression.txt")
