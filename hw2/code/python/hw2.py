@@ -1,3 +1,4 @@
+from sets import Set
 def convertIntToLabel(i):
 	if (i >= 200):
 		if i == 200:
@@ -64,12 +65,47 @@ def hw2(inputFileName):
 			geneLabel = convertIntToLabel(i)
 			frequentLabeledItemSetsL1[geneLabel] = frequencyCounter[i]
 
-	for i in range (0,len(frequencyCounter)):
-		if i not in frequentUnlabeledItemSetsL1:
-			continue
-		for j in range (0,len(frequencyCounter)):
-			if j not in frequentUnlabeledItemSetsL1:
-				continue
-			
+	frequencyUnlabeledItemSetsL2 = {}
+	for i in  range(0, len(frequentUnlabeledItemSetsL1)):
+		for j in range(i, len(frequentUnlabeledItemSetsL1)):
+			for sample in fileContents:
+				firstNum = frequentUnlabeledItemSetsL1[i]
+				secondNum = frequentUnlabeledItemSetsL1[j]
+				if (firstNum in sample) and (secondNum in sample) and (firstNum != secondNum):
+					mapKey = str(firstNum) + " " + str(secondNum) 
+					if mapKey in frequencyUnlabeledItemSetsL2:
+						frequencyUnlabeledItemSetsL2[mapKey]+=1
+					else: 
+						frequencyUnlabeledItemSetsL2[mapKey] = 1
 
+	frequentLabeledItemSetL2 = {}
+	for x in frequencyUnlabeledItemSetsL2:
+		if frequencyUnlabeledItemSetsL2[x] >= support:
+			pair = x.split()
+			pairAsInt = [int(pair[0]), int(pair[1])]
+			firstNum = min(pairAsInt)
+			secondNum = max(pairAsInt)
+			
+			if (firstNum == secondNum):
+				print "something went wrong"
+			
+			mapKey = "[" + convertIntToLabel(firstNum) + ", " + convertIntToLabel(secondNum) + "]"
+			frequentLabeledItemSetL2[mapKey] = frequencyUnlabeledItemSetsL2[x]
+
+	
+	frequencyUnlabeledItemSetsL3 = {}
+	for i in  range(0, len(frequentUnlabeledItemSetsL1)):
+		for j in range(i, len(frequentUnlabeledItemSetsL1)):
+			for k in range (j, len(frequentUnlabeledItemSetsL1)):
+				for sample in fileContents:
+					firstNum = frequentUnlabeledItemSetsL1[i]
+					secondNum = frequentUnlabeledItemSetsL1[j]
+					thirdNum = frequentUnlabeledItemSetsL1[k]
+					if (firstNum in sample) and (secondNum in sample) and (thirdNum in sample) and (firstNum != secondNum) and (firstNum != thirdNum) and (secondNum != thirdNum):
+						mapKey = str(firstNum) + " " + str(secondNum) + " " str(thirdNum)
+						if mapKey in frequencyUnlabeledItemSetsL2:
+							frequencyUnlabeledItemSetsL2[mapKey]+=1
+						else: 
+							frequencyUnlabeledItemSetsL2[mapKey] = 1
 hw2("gene_expression.txt")
+
