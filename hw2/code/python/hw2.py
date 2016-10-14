@@ -1,3 +1,22 @@
+def convertIntToLabel(i):
+	if (i >= 200):
+		if i == 200:
+			return "ALL"
+		elif i == 201:
+			return "AML"
+		elif i == 202:
+			return "Breast Cancer"
+		elif i == 203: 
+			return "Colon Cancer"
+	else:
+		stringToReturn = "G"
+		stringToReturn = stringToReturn + str(i/2 + 1) + "_"
+		if (i%2 == 0):
+			stringToReturn +="UP"
+		else: 
+			stringToReturn +="Down"
+
+		return stringToReturn
 def hw2(inputFileName):
 	toRead = open(inputFileName)
 	line = toRead.readline()
@@ -41,24 +60,7 @@ def hw2(inputFileName):
 	for i in range(0, len(frequencyCounter)):
 		if frequencyCounter[i] >= support:
 			frequentUnlabeledItemSetsL1.append(i)
-			geneLabel = "G" + str(i/2 + 1) + "_"
-			if (i%2 == 1 and i < 200):
-				geneLabel+="Down"
-			elif (i%2 == 0 and i < 200):
-				geneLabel+="UP"
-			elif (i == 200):
-				geneLabel = "ALL"
-			elif (i == 201):
-				geneLabel = "AML"
-			elif (i == 202):
-				geneLabel = "Breast Cancer"
-			elif (i == 203):
-				geneLabel = "Colon Cancer"
-			else:
-				print "Something went wrong"
+			geneLabel = convertIntToLabel(i)
 			frequentLabeledItemSetsL1[geneLabel] = frequencyCounter[i]
-			
-	print frequentLabeledItemSetsL1["G1_UP"]
-	print frequencyCounter[0]
 
 hw2("gene_expression.txt")
