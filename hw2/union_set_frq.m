@@ -35,6 +35,10 @@ function [ frequent ] = union_set_frq(union_set,last_fs,gene, support)
             end
         end
         
+       if count < support * sample_num
+            freqent = 0;
+       end
+        
     end
 
 end
