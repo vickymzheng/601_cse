@@ -4,7 +4,7 @@
 % 4 disease 201,202,203,204
 clear all
 load('dataset.mat');
-support = 0.7;
+support = 0.4;
 fi = [];    % current round of frequent itemset of size k
 fis = {};   % cell array, each cell is the frequent itemset of size k
 
@@ -46,8 +46,27 @@ while flag == 1
         for is2 = is1+1 : fitem_num
             union_set = union( last_fs(is1,:) , last_fs(is2,:) );
             if (size( union_set,2) == k) 
-                if union_set_frq(union_set,last_fs,gene, support) == 1 % dont contain infreqent subsets, support > threshold_support
-                    fi = [fi ; union_set];
+%                 if union_set_frq(union_set,last_fs,gene, support) == 1
+%                  % dont contain infreqent subsets, support > threshold_support
+%                  if isempty(fi) == 1
+%                      fi = [fi ; union_set];
+%                  end
+%                  
+%                  if isempty(fi) == 0
+%                     if  ismember(union_set,fi, 'rows') == 0 % the frequent itemset doesn't appear before
+%                         fi = [fi ; union_set];
+%                     end
+%                  end
+%                  
+%                 end
+
+                if isempty(fi) == 1 || ( (isempty(fi) == 0) && (ismember(union_set,fi, 'rows') == 0) )
+                    
+                    if union_set_frq(union_set,last_fs,gene, support) == 1
+                        fi = [fi ; union_set];
+                    end
+                    
+                    
                 end
             end
         end        
