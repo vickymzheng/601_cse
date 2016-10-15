@@ -165,7 +165,8 @@ Although our algorithm is O(n!) where n is the number of attributes, this prunin
 7 of length 1 frequent item sets. \\
 
 \section*{Results from Part 2}
-\noindent The results from Part 2 were obtained by combining our results from Part 1 and combining it with the counting method described in piazza post 113.
+\noindent The results from Part 2 were obtained by combining our results from Part 1 and combining it with the counting method described in piazza post 113. Confidence is calculated from the equation: \\
+$$c = \frac{\sigma(HEAD)}{\sigma(BODY)}$$
 \begin{enumerate} 
 	\item RULE HAS ANY OF G6\_UP \\
 	Result: \\
@@ -212,7 +213,7 @@ Although our algorithm is O(n!) where n is the number of attributes, this prunin
 \end{enumerate}
 \section*{Conclusion}
 
-In conclusion, BioGalaxy can have reasonably timed queries since having multiple fact tables allows for fewer joins. Our schema also supports many to many relationships, temporal data, and hierarchal querying.
+In this homework, we implemented the apriori algorithm to find association rules. With our implementation, we calculated the number of frequent sets for various lengths for support levels ranging from 0.3-0.7. With the frequent item sets, we are able to calculate the results from the queries given to us on piazza. We are able to do this because we have already calculated the frequent item sets for Support = .5 and we can easily calculate the confidence with the equation given to us to see if it means the threshold of .6. 
 
 % Your references go at the end of the main text, and before the
 % figures.  For this document we've used BibTeX, the .bib file
