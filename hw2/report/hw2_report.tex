@@ -124,9 +124,92 @@ The apriori algorithm is used to determine association rules. In this homework, 
 \noindent The data provided is a .txt file that contains a 100 by 102 matrix. There are 100 samples each corresponding to the genes of a patient with a disease. The diseases are: ALL, AML, Breast Cancer and Colon Cancer. In order to optimize our program, we converted each of these values into integers: 1,2,3,4 respectively. The data set also gives us a sequence of 100 genes labeled as either up or down. Each gene at index i is treated as 1 if it is up and 0 if it is down. We did this to optimize our program by having fewer string comparsions since integer comparisons are much faster. 
 
 \section*{Implementation}
-\noindent For this homework, we choose to use Matlab because our input data is a matrix. Matlab has helpful functions for matrix manipulation like determining whether a set of numbers is in a row of the matrix. It also has helpful functions such as the union of two sets which helped us do the pruning necessary for an efficient apriori algorithm.
+\noindent For this homework, we choose to use Matlab because our input data is a matrix. Matlab has helpful functions for matrix manipulation like determining whether a set of numbers is in a row of the matrix. It also has helpful functions such as the union of two sets which helped us do the pruning necessary for an efficient apriori algorithm. In our implementation, we enumerate through all possible tuples where a tuple can be comprised of genes or genes and diseases. We start at the shortest length of tuples, and work our way up. We based our implementation off the diagram provided in class which is shown in Fig. 1. 
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{apriori}
+	\caption{Apriori Pruning Search Space}
+\end{figure}
 
+Although our algorithm is O(n!) where n is the number of attributes, this pruning significantly reduces our runtime. This is because we expliot the fact that a superset of an infrequent set must also be infrequent. In Fig. 1, $$BCD=>A$$ was infrequent therefore all of it's supersets are also infrequent so we don't have to explore it. 
+
+\section*{Results from Part 1}
+\noindent With a support level of 30\%, we obtain the values: \\
+196 of length 1 frequent item sets. \\
+5340 of length 2 frequent item sets. \\
+5287 of length 3 frequent item sets. \\
+1518 of length 4 frequent item sets.\\
+438 of length 5 frequent item sets.\\
+88 of length 6 frequent item sets.\\
+11 of length 7 frequent item sets.\\
+1 of length 8 frequent item sets.\\
+
+\noindent With a support level of 40\%, we obtain the values: \\
+167 of length 1 frequent item sets. \\
+753 of length 2 frequent item sets. \\
+149 of length 3 frequent item sets. \\
+7 of length 4 frequent item sets.\\
+1 of length 5 frequent item sets.\\
+
+\noindent With a support level of 50\%, we obtain the values: \\
+109 of length 1 frequent item sets. \\
+63 of length 2 frequent item sets. \\
+2 of length 3 frequent item sets. \\
+
+\noindent With a support level of 60\%, we obtain the values: \\
+31 of length 1 frequent item sets. \\
+2 of length 2 frequent item sets. \\
+
+\noindent With a support level of 70\%, we obtain the values: \\
+7 of length 1 frequent item sets. \\
+
+\section*{Results from Part 2}
+\noindent The results from Part 2 were obtained by combining our results from Part 1 and combining it with the counting method described in piazza post 113.
+\begin{enumerate} 
+	\item RULE HAS ANY OF G6\_UP \\
+	Result: \\
+	\item RULE HAS 1 OF G1\_UP \\
+	Result: \\
+	\item RULE HAS 1 OF (G1\_UP, G10\_DOWN) \\
+	Result: \\
+	\item BODY HAS ANY OF G6\_UP \\
+	Result: \\
+	\item BODY HAS NONE OF G72\_UP\\
+	Result: \\
+	\item BODY HAS 1 OF (G1\_UP, G10\_DOWN)\\
+	Result: \\
+	\item HEAD HAS ANY OF G6\_UP\\
+	Result: \\
+	\item HEAD HAS NONE OF (G1\_UP, G6\_UP)\\
+	Result: \\
+	\item HEAD HAS 1 OF (G6\_UP, G8\_UP)\\
+	Result: \\
+	\item RULE HAS 1 OF (G1\_UP, G6\_UP, G72\_UP)\\
+	Result: \\
+	\item RULE HAS ANY OF (G1\_UP, G6\_UP, G72\_UP)\\
+	Result: \\
+
+	\item SIZE OF RULE >= 3 \\
+	Result: \\
+	\item SIZE OF BODY >= 2 \\
+	Result: \\
+	\item SIZE OF HEAD >= 2 \\
+	Result: \\
+
+	\item  BODY HAS ANY OF G1\_UP AND HEAD HAS 1 OF G59\_UP \\
+	Result: \\
+	\item  BODY HAS ANY OF G1\_UP OR HEAD HAS 1 OF G6\_UP \\
+	Result: \\
+	\item  BODY HAS 1 OF G1\_UP OR HEAD HAS 2 OF G6\_UP \\
+	Result: \\
+	\item  HEAD HAS 1 OF G1\_UP AND BODY HAS 0 OF DISEASE \\
+	Result: \\
+	\item  HEAD HAS 1 OF DISEASE OR RULE HAS 1 OF (G72\_UP, G96\_DOWN) \\
+	Result: \\
+	\item  BODY HAS 1 of (G59\_UP, G96\_DOWN) AND SIZE OF RULE >=3 \\
+	Result: \\
+\end{enumerate}
 \section*{Conclusion}
 
 In conclusion, BioGalaxy can have reasonably timed queries since having multiple fact tables allows for fewer joins. Our schema also supports many to many relationships, temporal data, and hierarchal querying.
@@ -143,17 +226,9 @@ In conclusion, BioGalaxy can have reasonably timed queries since having multiple
 
 \begin{thebibliography}{9}
 	\bibitem{latexcompanion} 
-	Liangjiang Wang, and Aidong Zhang 
-	\textit{BioStar Models of clinical and genomic data for biomedical data warehouse design}. 
-	
-	
-	\bibitem{knuthwebsite} 
-	Wide Skills
-	\\\texttt{$http://www.wideskills.com/data-warehousing/dimensional-data-modelling$}
-	
-	\bibitem{Wiki Pedia Website} 
-	Wiki Pedia Website
-	\\\texttt{$https://en.wikipedia.org/wiki/Fact_constellation$}
+	Jing Gao
+	\textit{Association1 Slides}. 
+
 \end{thebibliography}
 
 
