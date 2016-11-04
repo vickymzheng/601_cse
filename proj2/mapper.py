@@ -38,5 +38,6 @@ for line in sys.stdin:
 
     # Turn string into list of datapoints as floats 
     dataPoint = [float(x) for x in line.split()]
+    dataPointID = str(int(dataPoint[0]))
 
-    print ' '.join([str(x) for x in getDists(dataPoint)])
+    print dataPointID + '\t' + '\t'.join([str(x) for x in getDists(dataPoint)])
