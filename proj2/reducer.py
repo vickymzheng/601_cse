@@ -34,14 +34,15 @@ def compareClusters(oldClusterAssignments, clusterAssignments):
         print "something went wrong"
         return 0
 
+    print oldClusterAssignments
+    print clusterAssignments
     for clusterAssignment in clusterAssignments:
-        if (clusterAssignments[clusterAssignment[0]][1] != oldClusterAssignments[clusterAssignment[0]][1]):
+        if (clusterAssignment[1] != oldClusterAssignments[clusterAssignment[0]-1][1]):
             return 0
     return 1
 
 def newCentroids(clusterMembers,k):
     # Should be k * n, k new centroids with n dimensions 
-    print clusterMembers
     numDimensions = len(clusterMembers[1][0])
     newCentroids = [[0 for x in range(numDimensions)] for y in range(k)]
     for cluster in clusterMembers:
@@ -49,7 +50,6 @@ def newCentroids(clusterMembers,k):
         for member in clusterMembers[cluster]:
             for index in range(0, len(member)):
                 newCentroids[cluster-1][index] = newCentroids[cluster-1][index] + (member[index]/numMembers)
-    print newCentroids
     return newCentroids
 
 #dataFile = "iyer.txt"
@@ -68,7 +68,7 @@ clusterMembers = {}
 # input comes from STDIN
 for line in sys.stdin:
     # parse the input we got from mapper.py
-    distances = [float(x) for x in line.split()]
+    distances = [float(x) for x in line.split()]           
     dataPointID = int(distances[0])
     distances = distances[1:]
 
@@ -84,7 +84,9 @@ for line in sys.stdin:
 # Need to calc new centroids here
 newCentroids = newCentroids(clusterMembers, k)
 
-if (compareClusters(oldClusterAssignments, clusterAssignments) == 1):
+isSame = compareClusters(oldClusterAssignments, clusterAssignments)
+print isSame
+if (isSame == 1):
     #somehow terminate map reduce
     for clusterAssignment in clusterAssignments:
         print str(clusterAssignment)
@@ -93,4 +95,9 @@ else:
     toWrite = open(clusterAssignmentFile, 'w+')
     for clusterAssignment in clusterAssignments:
         toWrite.write('\t'.join([str(x) for x in clusterAssignment]) + '\n')
+    
+    writeToCentroidFile = open(centroidFile, 'w+')
+    for centroid in newCentroids:
+        writeToCentroidFile.write('\t'.join([str(x) for x in centroid]) + '\n')
+
     #write to old cluster assignments and add your new cluster assignments 
