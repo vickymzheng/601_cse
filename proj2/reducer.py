@@ -50,11 +50,21 @@ def newCentroids(clusterMembers,k):
                 newCentroids[cluster-1][index] = newCentroids[cluster-1][index] + (member[index]/numMembers)
     return newCentroids
 
-#dataFile = "iyer.txt"
-#dataFile = "cho.txt"
-dataFile = "dummyData.txt"
-clusterAssignmentFile = "dummyAssignments.txt"
-centroidFile = "dummyCentroids.txt"
+
+# dataFile = "dummyData.txt"
+# clusterAssignmentFile = "dummyAssignments.txt"
+# centroidFile = "dummyCentroids.txt"
+iyer = 1
+if (iyer):
+    dataFile = "iyer.txt"
+    clusterAssignmentFile = "iyerAssignments.txt"
+    centroidFile = "iyerCentroids.txt"
+    outputFile = "iyerOutput.txt"
+else: 
+    dataFile = "cho.txt"
+    clusterAssignmentFile = "choAssignments.txt"
+    centroidFile = "choCentroids.txt"
+    outputFile = "choOutput.txt"
 
 ogData = getOriginalData(dataFile)
 oldClusterAssignments = getOldClusterAssignments(clusterAssignmentFile)
@@ -84,9 +94,12 @@ newCentroids = newCentroids(clusterMembers, k)
 
 isSame = compareClusters(oldClusterAssignments, clusterAssignments)
 if (isSame):
+    toWrite = open(outputFile, 'w+')
     #somehow terminate map reduce
     for clusterAssignment in clusterAssignments:
-        print str('\t'.join([str(x) for x in clusterAssignment]))
+        clust = str('\t'.join([str(x) for x in clusterAssignment]))
+        print clust
+        toWrite.write(clust + '\n')
 else:
     # Write new assignments
     toWrite = open(clusterAssignmentFile, 'w+')

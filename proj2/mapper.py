@@ -5,7 +5,12 @@ import math
 
 # Each centroid is unlabeled 
 centroidFile = "dummyCentroids.txt"
-
+iyer = 1
+if (iyer):
+    centroidFile = "iyerCentroids.txt"
+else: 
+    centroidFile = "choCentroids.txt"
+    
 def getCentroids(centroidFile):
     toRead = open(centroidFile)
     centroids = []
