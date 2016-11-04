@@ -33,34 +33,10 @@ def getDists(dataPoint):
         dists.append(dis)
     return dists
 
-
-fileToOpen = "dummyData.txt"
-def getData(fileToOpen):
-    toRead = open(fileToOpen)
-    data = []
-    line = toRead.readline()
-    while line != "":
-        dataEntry = [float(x) for x in line.split()]
-        data.append(dataEntry)
-        line = toRead.readline()
-    return data
-
-data = getData(fileToOpen)
-
-print map(getDists, data)
-
 # input comes from STDIN (standard input)
-# for line in sys.stdin:
-#     # remove leading and trailing whitespace
-#     line = line.strip()
-#     # split the line into words
-#     dataPoint = [int(x) for x in line.split()]
+for line in sys.stdin:
 
-#     # increase counters
-#     for word in words:
-#         # write the results to STDOUT (standard output);
-#         # what we output here will be the input for the
-#         # Reduce step, i.e. the input for reducer.py
-#         #
-#         # tab-delimited; the trivial word count is 1
-#         print '%s\t%s' % (word, 1)
+    # Turn string into list of datapoints as floats 
+    dataPoint = [float(x) for x in line.split()]
+
+    print getDists(dataPoint)
