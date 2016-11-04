@@ -33,9 +33,7 @@ def compareClusters(oldClusterAssignments, clusterAssignments):
     if (len(oldClusterAssignments) != len(clusterAssignments)):
         print "something went wrong"
         return 0
-
-    print oldClusterAssignments
-    print clusterAssignments
+        
     for clusterAssignment in clusterAssignments:
         if (clusterAssignment[1] != oldClusterAssignments[clusterAssignment[0]-1][1]):
             return 0
@@ -85,11 +83,10 @@ for line in sys.stdin:
 newCentroids = newCentroids(clusterMembers, k)
 
 isSame = compareClusters(oldClusterAssignments, clusterAssignments)
-print isSame
-if (isSame == 1):
+if (isSame):
     #somehow terminate map reduce
     for clusterAssignment in clusterAssignments:
-        print str(clusterAssignment)
+        print str('\t'.join([str(x) for x in clusterAssignment]))
 else:
     # Write new assignments
     toWrite = open(clusterAssignmentFile, 'w+')
