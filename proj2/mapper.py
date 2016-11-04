@@ -5,7 +5,7 @@ import math
 
 # Each centroid is unlabeled 
 centroidFile = "dummyCentroids.txt"
-iyer = 1
+iyer = 0
 if (iyer):
     centroidFile = "iyerCentroids.txt"
 else: 
