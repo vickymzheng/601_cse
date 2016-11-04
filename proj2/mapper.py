@@ -39,4 +39,4 @@ for line in sys.stdin:
     # Turn string into list of datapoints as floats 
     dataPoint = [float(x) for x in line.split()]
 
-    print getDists(dataPoint)
+    print ' '.join([str(x) for x in getDists(dataPoint)])
