@@ -26,6 +26,7 @@ def getCentroids(args):
 		data.append(entry)
 		line = toRead.readline()
 
+	random.seed(5)
 	centerIndices = random.sample(xrange(0, len(data)),k)
 
 	for index in centerIndices:
