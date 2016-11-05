@@ -29,7 +29,7 @@ def pca_visual(data,label,dim,algo): # data is sample_num * feature_num
     data = data.T
     pca.fit(data)
     data_pca = pca.components_
-    data_pca = data_pca*-1
+    data_pca = data_pca
     fig = plt.figure()
     if algo  == 1:
         title = 'Kmeans PCA scatter results'
@@ -59,11 +59,11 @@ def pca_visual(data,label,dim,algo): # data is sample_num * feature_num
     plt.show()
     return pca
 
-labelFile = "choOutput.txt"
+labelFile = "new1Output.txt"
 labelFileToRead = open(labelFile)
 line = labelFileToRead.readline()
 label = [int(x) for x in line.split()]
 
-dataFile = "cho.txt"
+dataFile = "new_dataset_1.txt"
 data = getData(dataFile)
 pca_visual(data, label, 2, 4)

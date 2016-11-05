@@ -55,17 +55,31 @@ def newCentroids(clusterMembers,k):
 # dataFile = "dummyData.txt"
 # clusterAssignmentFile = "dummyAssignments.txt"
 # centroidFile = "dummyCentroids.txt"
+newData = 1
+new1 = 1
 iyer = 0
-if (iyer):
-    dataFile = "iyer.txt"
-    clusterAssignmentFile = "iyerAssignments.txt"
-    centroidFile = "iyerCentroids.txt"
-    outputFile = "iyerOutput.txt"
-else: 
-    dataFile = "cho.txt"
-    clusterAssignmentFile = "choAssignments.txt"
-    centroidFile = "choCentroids.txt"
-    outputFile = "choOutput.txt"
+if (newData):
+    if (new1):
+        dataFile = "new_dataset_1.txt"
+        clusterAssignmentFile = "new1Assignments.txt"
+        centroidFile = "new1Centroids.txt"
+        outputFile = "new1Output.txt"
+    else:
+        dataFile = "new_dataset_2.txt"
+        clusterAssignmentFile = "new2Assignments.txt"
+        centroidFile = "new2Centroids.txt"
+        outputFile = "new2Output.txt"
+else:
+    if (iyer):
+        dataFile = "iyer.txt"
+        clusterAssignmentFile = "iyerAssignments.txt"
+        centroidFile = "iyerCentroids.txt"
+        outputFile = "iyerOutput.txt"
+    else: 
+        dataFile = "cho.txt"
+        clusterAssignmentFile = "choAssignments.txt"
+        centroidFile = "choCentroids.txt"
+        outputFile = "choOutput.txt"
 
 ogData = getOriginalData(dataFile)
 oldClusterAssignments = getOldClusterAssignments(clusterAssignmentFile)

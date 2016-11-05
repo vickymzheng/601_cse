@@ -6,10 +6,18 @@ import math
 # Each centroid is unlabeled 
 centroidFile = "dummyCentroids.txt"
 iyer = 0
-if (iyer):
-    centroidFile = "iyerCentroids.txt"
+newData = 1
+new1 = 1
+if(newData):
+    if(new1):
+        centroidFile = "new1Centroids.txt"
+    else:
+        centroidFile = "new2Centroids.txt"
 else: 
-    centroidFile = "choCentroids.txt"
+    if (iyer):
+        centroidFile = "iyerCentroids.txt"
+    else: 
+        centroidFile = "choCentroids.txt"
     
 def getCentroids(centroidFile):
     toRead = open(centroidFile)
