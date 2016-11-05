@@ -5,3 +5,5 @@
 hadoop dfs -rm /user/601cse/new*
 hadoop dfs -copyFromLocal new1* /user/601cse
 hadoop dfs -copyFromLocal new_dataset_1.txt /user/601cse
+
+hadoop dfs -ls /user/601cse

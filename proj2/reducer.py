@@ -103,28 +103,28 @@ for line in sys.stdin:
     
     clusterMembers[indexOfMinDist].append(ogData[dataPointID-1][2:])
 
-
 # Need to calc new centroids here
 newCentroids = newCentroids(clusterMembers, k)
 
+toWriteToOutput = [0]*len(clusterAssignments)
+outputWriter = open(outputFile, 'w+')
+
 isSame = compareClusters(oldClusterAssignments, clusterAssignments)
 if (isSame):
-    toWrite = open(outputFile, 'w+')
     #somehow terminate map reduce
-    toWriteToOutput = [0]*len(clusterAssignments)
     for clusterAssignment in clusterAssignments:
         toWriteToOutput[clusterAssignment[0]-1] = clusterAssignment[1]
         clust = str('\t'.join([str(x) for x in clusterAssignment]))
-        print clust
-    toWrite.write(' '.join([str(x) for x in toWriteToOutput]))
 else:
     # Write new assignments
-    toWrite = open(clusterAssignmentFile, 'w+')
+    assignmentWriter = open(clusterAssignmentFile, 'w+')
     for clusterAssignment in clusterAssignments:
-        toWrite.write('\t'.join([str(x) for x in clusterAssignment]) + '\n')
+        toWriteToOutput[clusterAssignment[0]-1] = clusterAssignment[1]
+        assignmentWriter.write('\t'.join([str(x) for x in clusterAssignment]) + '\n')
     
     writeToCentroidFile = open(centroidFile, 'w+')
     for centroid in newCentroids:
         writeToCentroidFile.write('\t'.join([str(x) for x in centroid]) + '\n')
 
+outputWriter.write(' '.join([str(x) for x in toWriteToOutput]))
     #write to old cluster assignments and add your new cluster assignments 
