@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./randCentroids.py iyer.txt iyerCentroids.txt 10
+./randCentroids.py iyer.txt iyerCentroids.txt 2
 ./getClusterAssignments.py iyer.txt iyerAssignments.txt
 hadoop dfs -rm /user/601cse/iyer*
 hadoop dfs -copyFromLocal iyer* /user/601cse
