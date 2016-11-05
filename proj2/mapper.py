@@ -4,20 +4,17 @@ import sys
 import math
 
 # Each centroid is unlabeled 
-centroidFile = "dummyCentroids.txt"
-iyer = 0
-newData = 1
-new1 = 1
-if(newData):
-    if(new1):
-        centroidFile = "new1Centroids.txt"
-    else:
-        centroidFile = "new2Centroids.txt"
-else: 
-    if (iyer):
-        centroidFile = "iyerCentroids.txt"
-    else: 
-        centroidFile = "choCentroids.txt"
+centroidFile = ""
+file = 1
+
+if (file == 0):
+    centroidFile = "choCentroids.txt"
+elif (file == 1):
+    centroidFile = "iyerCentroids.txt"
+elif(file == 2):
+    centroidFile = "new1Centroids.txt"
+else:
+    centroidFile = "new2Centroids.txt"
     
 def getCentroids(centroidFile):
     toRead = open(centroidFile)

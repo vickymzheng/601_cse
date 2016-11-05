@@ -58,12 +58,30 @@ def pca_visual(data,label,dim,algo): # data is sample_num * feature_num
     plt.grid()
     plt.show()
     return pca
+# 0 = cho
+# 1 = iyer
+# 2 = new1
+# 3 = new2
 
-labelFile = "new1Output.txt"
+labelFile = ""
+dataFile = ""
+file = 1
+if (file == 0):
+    labelFile = "choOutput.txt"
+    dataFile = "cho.txt"
+elif (file == 1):
+    labelFile = "iyerOutput.txt"
+    dataFile = "iyer.txt"
+elif (file == 2):
+    labelFile = "new1Output.txt"
+    dataFile = "new_dataset_1.txt"
+else:
+    labelFile = "new2Output.txt"
+    dataFile = "new_dataset_2.txt"
+
 labelFileToRead = open(labelFile)
 line = labelFileToRead.readline()
 label = [int(x) for x in line.split()]
 
-dataFile = "new_dataset_1.txt"
 data = getData(dataFile)
 pca_visual(data, label, 2, 4)
