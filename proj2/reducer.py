@@ -52,9 +52,9 @@ def newCentroids(clusterMembers,k):
     return newCentroids
 
 def getNumClustersK(centroidFile):
-    centroidReader = open(outputFile)
+    centroidReader = open(centroidFile)
     line = centroidReader.readline()
-    k = 1
+    k = 0
     while line != "":
         k+=1
         line = centroidReader.readline()
@@ -64,7 +64,7 @@ def getNumClustersK(centroidFile):
 # clusterAssignmentFile = "dummyAssignments.txt"
 # centroidFile = "dummyCentroids.txt"
 
-file = 1
+file = 3
 if (file == 0):
     dataFile = "cho.txt"
     clusterAssignmentFile = "choAssignments.txt"

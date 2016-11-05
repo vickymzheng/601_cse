@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./randCentroids.py new_dataset_2.txt new2Centroids.txt 2
+./randCentroids.py new_dataset_2.txt new2Centroids.txt 6
 ./getClusterAssignments.py new_dataset_2.txt new2Assignments.txt
 hadoop dfs -rm /user/601cse/new*
 hadoop dfs -copyFromLocal new2* /user/601cse

@@ -89,7 +89,7 @@ def pca_visual(data,label,dim,algo): # data is sample_num * feature_num
 
 labelFile = ""
 dataFile = ""
-file = 1
+file = 3
 if (file == 0):
     labelFile = "choOutput.txt"
     dataFile = "cho.txt"
