@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+# from sklearn.decomposition import PCA
 
 def getOriginalData(dataFile):
     toRead = open(dataFile)

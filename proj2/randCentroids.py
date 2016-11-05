@@ -28,6 +28,7 @@ def getCentroids(args):
 
 	random.seed(5)
 	centerIndices = random.sample(xrange(0, len(data)),k)
+	print centerIndices
 
 	for index in centerIndices:
 		toWrite.write('\t'.join(data[index]) + '\n')
