@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex hw2_report"] 1476490635 "hw2_report.aux" "hw2_report.bbl" "hw2_report" 1476490636
+["bibtex hw2_report"] 1476551840 "hw2_report.aux" "hw2_report.bbl" "hw2_report" 1476551840
   "Science.bst" 0 -1 0 ""
-  "hw2_report.aux" 1476490636 177 ba8544e560470157887130005422996b ""
+  "hw2_report.aux" 1476551814 177 9c5a582ef045bb4ae25bc5db549cca75 ""
   "hw2_report.bcf" 0 -1 0 ""
   "scibib.bib" 0 -1 0 ""
   (generated)
   "hw2_report.bbl"
   "hw2_report.blg"
-["pdflatex"] 1476490635 "/Users/Vicky/601_cse/hw2/report/hw2_report.tex" "/Users/Vicky/601_cse/hw2/report/hw2_report.pdf" "hw2_report" 1476490636
-  "/Users/Vicky/601_cse/hw2/report/hw2_report.aux" 1476490636 177 ba8544e560470157887130005422996b ""
-  "/Users/Vicky/601_cse/hw2/report/hw2_report.tex" 1476490632 9715 eff665ca6fcd6b16bb8d2d6c823e98a6 ""
+["pdflatex"] 1476551813 "/Users/Vicky/601_cse/hw2/report/hw2_report.tex" "/Users/Vicky/601_cse/hw2/report/hw2_report.pdf" "hw2_report" 1476551840
+  "/Users/Vicky/601_cse/hw2/report/hw2_report.aux" 1476551814 177 9c5a582ef045bb4ae25bc5db549cca75 ""
+  "/Users/Vicky/601_cse/hw2/report/hw2_report.tex" 1476551810 10911 868e4e28a61f31773c66c4c2b3b83e66 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -29,6 +29,8 @@
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1248133631 36741 fa121aac0049305630cf160b86157ee4 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
+  "/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
+  "/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1136849748 45458 a3faba884469519614ca56ba5f6b1de1 ""
@@ -65,15 +67,15 @@
   "/usr/local/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt" 1463979169 3873397 413fbfbbedb8e719ddc392043a7add02 ""
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
   "apriori.png" 1476487036 72621 93683de0c8aac80304561ab66ecd1c95 ""
-  "hw2_report.aux" 1476490636 177 ba8544e560470157887130005422996b ""
+  "hw2_report.aux" 1476551814 177 9c5a582ef045bb4ae25bc5db549cca75 ""
   "hw2_report.bbl" 0 -1 0 "bibtex hw2_report"
-  "hw2_report.tex" 1476490632 9715 eff665ca6fcd6b16bb8d2d6c823e98a6 ""
+  "hw2_report.tex" 1476551810 10911 868e4e28a61f31773c66c4c2b3b83e66 ""
   (generated)
-  "hw2_report.out"
-  "/Users/Vicky/601_cse/hw2/report/hw2_report.log"
-  "hw2_report.aux"
   "/Users/Vicky/601_cse/hw2/hw2_report.pdf"
-  "hw2_report.log"
-  "/Users/Vicky/601_cse/hw2/hw2_report.log"
   "hw2_report.pdf"
+  "hw2_report.aux"
+  "/Users/Vicky/601_cse/hw2/report/hw2_report.log"
   "/Users/Vicky/601_cse/hw2/report/hw2_report.pdf"
+  "/Users/Vicky/601_cse/hw2/hw2_report.log"
+  "hw2_report.log"
+  "hw2_report.out"

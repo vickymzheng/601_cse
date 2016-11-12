@@ -5,7 +5,7 @@ import math
 
 # Each centroid is unlabeled 
 centroidFile = ""
-file = 3
+file = 1
 
 if (file == 0):
     centroidFile = "choCentroids.txt"

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+a=0
+
+while [ $a -lt 20 ]
+do
+	hadoop jar /usr/local/Cellar/hadoop/2.7.2/libexec/share/hadoop/tools/lib/hadoop-streaming-2.7.2.jar -file mapper.py -mapper mapper.py -file reducer.py -reducer reducer.py -input /user/601cse/iyer.txt -output /user/601cse/iyerOutput
+	hadoop dfs -rm -r /user/601cse/iyerOutput
+
+	a=`expr $a + 1`
+	
+done
+
+python visualize.py

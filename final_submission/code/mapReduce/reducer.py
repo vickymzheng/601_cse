@@ -51,20 +51,12 @@ def newCentroids(clusterMembers,k):
                 newCentroids[cluster-1][index] = newCentroids[cluster-1][index] + (member[index]/numMembers)
     return newCentroids
 
-def getNumClustersK(centroidFile):
-    centroidReader = open(centroidFile)
-    line = centroidReader.readline()
-    k = 0
-    while line != "":
-        k+=1
-        line = centroidReader.readline()
-    return k
 
 # dataFile = "dummyData.txt"
 # clusterAssignmentFile = "dummyAssignments.txt"
 # centroidFile = "dummyCentroids.txt"
 
-file = 3
+file = 1
 if (file == 0):
     dataFile = "cho.txt"
     clusterAssignmentFile = "choAssignments.txt"
@@ -89,7 +81,7 @@ else:
 
 ogData = getOriginalData(dataFile)
 oldClusterAssignments = getOldClusterAssignments(clusterAssignmentFile)
-k = getNumClustersK(centroidFile)
+k = getNumClusters(oldClusterAssignments)
 
 clusterAssignments = []
 clusterMembers = {}

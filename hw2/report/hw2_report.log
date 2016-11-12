@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  14 OCT 2016 20:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  15 OCT 2016 13:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -158,48 +158,46 @@ File: apriori.png Graphic file (type png)
 <use apriori.png>
 Package pdftex.def Info: apriori.png used on input line 131.
 (pdftex.def)             Requested size: 455.24408pt x 318.1845pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 135.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 135.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 135.
-[2 </Users/Vicky/601_cse/hw2/report/apriori.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 138--147
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--149
+
+ []
+
+[2] [3 </Users/Vicky/601_cse/hw2/report/apriori.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 150--156
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--154
+Underfull \hbox (badness 10000) in paragraph at lines 157--161
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--159
+Underfull \hbox (badness 10000) in paragraph at lines 162--165
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--163
-
- []
-
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 164--166
+Underfull \hbox (badness 10000) in paragraph at lines 166--168
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 168--169
+Underfull \hbox (badness 10000) in paragraph at lines 170--171
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 171--173
-
- []
-
-
+[4]
 Underfull \hbox (badness 10000) in paragraph at lines 173--175
 
  []
@@ -214,7 +212,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 177--179
 
  []
 
-[4]
+
 Underfull \hbox (badness 10000) in paragraph at lines 179--181
 
  []
@@ -234,7 +232,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 185--187
 
  []
 
-
+[5]
 Underfull \hbox (badness 10000) in paragraph at lines 187--189
 
  []
@@ -249,8 +247,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 191--193
 
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
 
  []
 
@@ -265,7 +263,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 198--200
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 201--203
+Underfull \hbox (badness 10000) in paragraph at lines 200--202
 
  []
 
@@ -274,7 +272,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 203--205
 
  []
 
-
+[6]
 Underfull \hbox (badness 10000) in paragraph at lines 205--207
 
  []
@@ -289,33 +287,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 
  []
 
-[6]
+
 Underfull \hbox (badness 10000) in paragraph at lines 211--213
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--215
+
+ []
+
+[7]
 No file hw2_report.bbl.
-[7] (/Users/Vicky/601_cse/hw2/report/hw2_report.aux) ) 
+[8] (/Users/Vicky/601_cse/hw2/report/hw2_report.aux) ) 
 Here is how much of TeX's memory you used:
  1656 strings out of 493014
  24289 string characters out of 6133351
- 81361 words of memory out of 5000000
+ 82372 words of memory out of 5000000
  5187 multiletter control sequences out of 15000+600000
  15861 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,6n,23p,676b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,6n,23p,860b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/
 texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2016/texmf-dist/font
 s/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/t
-imes/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri
-8a.pfb>
-Output written on /Users/Vicky/601_cse/hw2/report/hw2_report.pdf (7 pages, 1086
-40 bytes).
+ype1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on /Users/Vicky/601_cse/hw2/report/hw2_report.pdf (8 pages, 1267
+30 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+./randCentroids.py cho.txt choCentroids.txt 5
+./getClusterAssignments.py cho.txt choAssignments.txt
+hadoop dfs -rm /user/601cse/cho*
+hadoop dfs -copyFromLocal cho* /user/601cse
+
+hadoop dfs -ls /user/601cse

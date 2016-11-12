@@ -1,0 +1,12 @@
+#!/bin/sh
+
+a=0
+
+while [ $a -lt 12 ]
+do
+	cat new_dataset_1.txt | ./mapper.py | ./reducer.py
+
+	a=`expr $a + 1`
+done
+
+python visualize.py
