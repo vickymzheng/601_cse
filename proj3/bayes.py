@@ -1,4 +1,5 @@
 # import sys
+import math
 
 def addLists(list1, list2):
 	#the two lists should be the same length
@@ -41,12 +42,12 @@ def dataPreprocess(data, numSamples, numAttributes):
 		if (isNumeric(data[0][attributeNum])):
 			for sampleNum in range(0, numSamples):
 				data[sampleNum][attributeNum] = float(data[sampleNum][attributeNum])
-		else:
-			for sampleNum in range(0, numSamples):
-				if data[sampleNum][attributeNum] == "Present":
-					data[sampleNum][attributeNum] = 1
-				else:
-					data[sampleNum][attributeNum] = 0
+		# else:
+		# 	for sampleNum in range(0, numSamples):
+		# 		if data[sampleNum][attributeNum] == "Present":
+		# 			data[sampleNum][attributeNum] = 1
+		# 		else:
+		# 			data[sampleNum][attributeNum] = 0
 	return data
 
 def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent):
@@ -72,7 +73,7 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 	#meansAbsent = map(lambda x: x/numAbsent, meansAbsent)
 	divideList(meansPresent, numPresent)
 	divideList(meansAbsent, numAbsent)
-	
+
 	for i in range(0, numAttributes):
 		presentCol = []
 		absentCol = []
@@ -93,7 +94,11 @@ def prior(samples, present, notPresent):
 			notPresent+=1
 	return (present, notPresent)
 
-	return (present, notPresent)
+def probability(x, mean, variance):
+	exponent = .5*(((x - mean)**2)/(variance))
+	base = 1/math.sqrt(math.pi*variance*2)
+	return base**exponent
+
 def bayes(fileName):
 	samples = getData(fileName)
 
@@ -121,13 +126,22 @@ def bayes(fileName):
 	notPresent = notPresent/numSamples
 
 	for sample in samples:
-		attributes = sample[0:-2]
-		attributeProbabilities = []
-		for attribute in attributes:
-			#calc prob of attribute
-			attributeProb = attribute
-
+		attributes = sample[0:numAttributes]
+		attributeProbabilitiesPresent = [0]*numAttributes
+		attributeProbabilitiesAbsent = [0]*numAttributes
+		for i in range(0, numAttributes):
+			if (isNumeric(attributes[i])):
+				currentAttribute = attributes[i]
+				attributeProbabilitiesPresent[i] = probability(currentAttribute, meansPresent[i], variancesPresent[i])
+				attributeProbabilitiesAbsent[i] = probability(currentAttribute, meansAbsent[i], variancesAbsent[i])
+			else: 
+				#count num present and x div present
+				#count num absent and x div absent
+				x = 1 #TODO: delete this
+		print attributeProbabilitiesPresent
+		print attributeProbabilitiesAbsent
 
 	
 
 bayes("project3_dataset2.txt")
+
