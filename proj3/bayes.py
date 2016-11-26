@@ -215,8 +215,4 @@ def bayes(fileName):
 
 	print checkCorrect(samples)
 
-
-	
-
-bayes("project3_dataset2.txt")
-
+bayes("project3_dataset1.txt") 
