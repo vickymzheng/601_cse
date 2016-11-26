@@ -1,12 +1,6 @@
 # import sys
 import math
 
-def addLists(list1, list2):
-	#the two lists should be the same length
-	numElements = len(list1)
-	for index in range(0, numElements):
-		list1[index] = list1[index] + list2[index]
-
 def divideList(someList, divisor):
 	for index in range(0, len(someList)):
 		someList[index] = someList[index]/divisor
@@ -36,6 +30,13 @@ def isNumeric(potentialNumber):
 		return True
 	except ValueError:
 		return False
+
+def addLists(list1, list2):
+	#the two lists should be the same length
+	numElements = len(list1)
+	for index in range(0, numElements):
+		if (isNumeric(list2[index])):
+			list1[index] = list1[index] + list2[index]
 
 def dataPreprocess(data, numSamples, numAttributes):
 	for attributeNum in range(0, numAttributes):
@@ -75,16 +76,42 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 	divideList(meansAbsent, numAbsent)
 
 	for i in range(0, numAttributes):
-		presentCol = []
-		absentCol = []
-		for presentSample in presentSamples:
-			presentCol.append(presentSample[i])
+		if (isNumeric(samples[0][i])):
+			presentCol = []
+			absentCol = []
+			for presentSample in presentSamples:
+				presentCol.append(presentSample[i])
 
-		for absentSample in absentSamples:
-			absentCol.append(absentSample[i])
+			for absentSample in absentSamples:
+				absentCol.append(absentSample[i])
 
-		variancesPresent[i] = getVariance(presentCol, meansPresent[i], numPresent)
-		variancesAbsent[i] = getVariance(absentCol, meansAbsent[i], numAbsent)
+			variancesPresent[i] = getVariance(presentCol, meansPresent[i], numPresent)
+			variancesAbsent[i] = getVariance(absentCol, meansAbsent[i], numAbsent)
+		else:
+			presentAndPresent = 0
+			presentAndAbsent = 0
+			absentAndPresent = 0
+			absentAndAbsent = 0
+
+			for presentSample in presentSamples:
+				if (presentSample[i] == "Present"):
+					presentAndPresent+=1
+				if (presentSample[i] == "Absent"):
+					absentAndPresent+=1
+
+			if (not (presentAndPresent + absentAndPresent == numPresent)):
+				print "Something went wrong in nominal counting 1"
+
+			for absentSample in absentSamples:
+				if (absentSample[i] == "Present"):
+					presentAndAbsent+=1
+				if (absentSample[i] == "Absent"):
+					absentAndAbsent+=1
+
+			if (not (presentAndAbsent + absentAndAbsent == numAbsent)):
+				print "Something went wrong in nominal counting 2"
+				
+	return (numPresent, numAbsent)
 
 def prior(samples, present, notPresent):
 	for sample in samples:
@@ -112,7 +139,13 @@ def bayes(fileName):
 	variancesPresent = [0]*(numAttributes)
 	meansAbsent = [0]*numAttributes
 	variancesAbsent = [0]*numAttributes
-	statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent)
+	numPresent = 0
+	numAbsent = 0
+	(numPresent, numAbsent) = statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent)
+
+	if (not (numPresent + numAbsent == numSamples)):
+		print "Something went wrong"
+		return
 
 	print meansPresent
 	print meansAbsent
