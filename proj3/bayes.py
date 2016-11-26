@@ -132,6 +132,21 @@ def probability(x, mean, variance):
 	base = 1/math.sqrt(math.pi*variance*2)
 	return base**exponent
 
+def listProduct(probList):
+	product = 1
+	for prob in probList:
+		product*=prob
+	return product
+
+def checkCorrect(samples):
+	numCorrect = 0.0
+	numSamples = len(samples)
+	for sample in samples:
+		if (sample[-2] == sample[-1]):
+			numCorrect+=1
+
+	return numCorrect/numSamples
+
 def bayes(fileName):
 	samples = getData(fileName)
 
@@ -190,8 +205,16 @@ def bayes(fileName):
 					attributeProbabilitiesPresent[i] = nominalAbsentAndPresent[i]
 					attributeProbabilitiesAbsent[i] = nominalAbsentAndAbsent[i]
 
-		print attributeProbabilitiesPresent
-		print attributeProbabilitiesAbsent
+		probPresent =  listProduct(attributeProbabilitiesPresent)*present
+		probAbsent = listProduct(attributeProbabilitiesAbsent)*notPresent
+
+		if (probPresent > probAbsent):
+			sample[-1] = 1
+		else:
+			sample[-1] = 0
+
+	print checkCorrect(samples)
+
 
 	
 
