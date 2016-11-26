@@ -52,7 +52,7 @@ def dataPreprocess(data, numSamples, numAttributes):
 	return data
 
 def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent, 
-	nominalPresentandPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent):
+	nominalPresentAndPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent):
 	numPresent = 0
 	numAbsent = 0
 	presentSamples = []
@@ -112,11 +112,11 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 			if (not (presentAndAbsent + absentAndAbsent == numAbsent)):
 				print "Something went wrong in nominal counting 2"
 			
-			nominalPresentandPresent[i] = float(presentAndPresent)/numPresent
+			nominalPresentAndPresent[i] = float(presentAndPresent)/numPresent
 			nominalAbsentAndPresent[i] = float(absentAndPresent)/numPresent
 			nominalPresentAndAbsent[i] = float(presentAndAbsent)/numAbsent
 			nominalAbsentAndAbsent[i] = float(absentAndAbsent)/numAbsent
-			
+
 	return (numPresent, numAbsent)
 
 def prior(samples, present, notPresent):
@@ -146,7 +146,7 @@ def bayes(fileName):
 	meansAbsent = [0]*numAttributes
 	variancesAbsent = [0]*numAttributes
 
-	nominalPresentandPresent = [0]*numAttributes
+	nominalPresentAndPresent = [0]*numAttributes
 	nominalAbsentAndPresent = [0]*numAttributes
 	nominalPresentAndAbsent = [0]*numAttributes
 	nominalAbsentAndAbsent = [0]*numAttributes
@@ -154,7 +154,7 @@ def bayes(fileName):
 	numPresent = 0
 	numAbsent = 0
 	(numPresent, numAbsent) = statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent,
-		nominalPresentandPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent)
+		nominalPresentAndPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent)
 
 	if (not (numPresent + numAbsent == numSamples)):
 		print "Something went wrong"
@@ -176,16 +176,22 @@ def bayes(fileName):
 		attributeProbabilitiesPresent = [0]*numAttributes
 		attributeProbabilitiesAbsent = [0]*numAttributes
 		for i in range(0, numAttributes):
-			if (isNumeric(attributes[i])):
-				currentAttribute = attributes[i]
+			currentAttribute = attributes[i]
+			if (isNumeric(currentAttribute)):
 				attributeProbabilitiesPresent[i] = probability(currentAttribute, meansPresent[i], variancesPresent[i])
 				attributeProbabilitiesAbsent[i] = probability(currentAttribute, meansAbsent[i], variancesAbsent[i])
 			else: 
 				#count num present and x div present
 				#count num absent and x div absent
-				x = 1 #TODO: delete this
-		# print attributeProbabilitiesPresent
-		# print attributeProbabilitiesAbsent
+				if (currentAttribute == "Present"):
+					attributeProbabilitiesPresent[i] = nominalPresentAndPresent[i]
+					attributeProbabilitiesAbsent[i] = nominalPresentAndAbsent[i]
+				else:
+					attributeProbabilitiesPresent[i] = nominalAbsentAndPresent[i]
+					attributeProbabilitiesAbsent[i] = nominalAbsentAndAbsent[i]
+
+		print attributeProbabilitiesPresent
+		print attributeProbabilitiesAbsent
 
 	
 
