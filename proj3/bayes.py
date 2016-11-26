@@ -51,7 +51,8 @@ def dataPreprocess(data, numSamples, numAttributes):
 		# 			data[sampleNum][attributeNum] = 0
 	return data
 
-def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent):
+def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent, 
+	nominalPresentandPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent):
 	numPresent = 0
 	numAbsent = 0
 	presentSamples = []
@@ -110,7 +111,12 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 
 			if (not (presentAndAbsent + absentAndAbsent == numAbsent)):
 				print "Something went wrong in nominal counting 2"
-				
+			
+			nominalPresentandPresent[i] = float(presentAndPresent)/numPresent
+			nominalAbsentAndPresent[i] = float(absentAndPresent)/numPresent
+			nominalPresentAndAbsent[i] = float(presentAndAbsent)/numAbsent
+			nominalAbsentAndAbsent[i] = float(absentAndAbsent)/numAbsent
+			
 	return (numPresent, numAbsent)
 
 def prior(samples, present, notPresent):
@@ -139,18 +145,25 @@ def bayes(fileName):
 	variancesPresent = [0]*(numAttributes)
 	meansAbsent = [0]*numAttributes
 	variancesAbsent = [0]*numAttributes
+
+	nominalPresentandPresent = [0]*numAttributes
+	nominalAbsentAndPresent = [0]*numAttributes
+	nominalPresentAndAbsent = [0]*numAttributes
+	nominalAbsentAndAbsent = [0]*numAttributes
+
 	numPresent = 0
 	numAbsent = 0
-	(numPresent, numAbsent) = statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent)
+	(numPresent, numAbsent) = statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent,
+		nominalPresentandPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent)
 
 	if (not (numPresent + numAbsent == numSamples)):
 		print "Something went wrong"
 		return
 
-	print meansPresent
-	print meansAbsent
-	print variancesPresent
-	print variancesAbsent
+	# print meansPresent
+	# print meansAbsent
+	# print variancesPresent
+	# print variancesAbsent
 
 	present = 0.0
 	notPresent = 0.0
@@ -171,8 +184,8 @@ def bayes(fileName):
 				#count num present and x div present
 				#count num absent and x div absent
 				x = 1 #TODO: delete this
-		print attributeProbabilitiesPresent
-		print attributeProbabilitiesAbsent
+		# print attributeProbabilitiesPresent
+		# print attributeProbabilitiesAbsent
 
 	
 
