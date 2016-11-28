@@ -5,6 +5,19 @@ def divideList(someList, divisor):
 	for index in range(0, len(someList)):
 		someList[index] = someList[index]/divisor
 
+def dataPreprocess(data, numSamples, numAttributes):
+	for attributeNum in range(0, numAttributes):
+		if (isNumeric(data[0][attributeNum])):
+			for sampleNum in range(0, numSamples):
+				data[sampleNum][attributeNum] = float(data[sampleNum][attributeNum])
+		# else:
+		# 	for sampleNum in range(0, numSamples):
+		# 		if data[sampleNum][attributeNum] == "Present":
+		# 			data[sampleNum][attributeNum] = 1
+		# 		else:
+		# 			data[sampleNum][attributeNum] = 0
+	return data
+
 def getData(fileName):
 	toRead = open(fileName)
 	samples = []
@@ -15,6 +28,10 @@ def getData(fileName):
 	    sample.append(myAssignment)
 	    samples.append(sample)
 	    line = toRead.readline()
+
+	numSamples = len(samples)
+	numCols = len(samples[0])
+	dataPreprocess(samples, numSamples, numCols)
 	return samples
 
 def getVariance(numList, mean, numSamples):
@@ -38,18 +55,6 @@ def addLists(list1, list2):
 		if (isNumeric(list2[index])):
 			list1[index] = list1[index] + list2[index]
 
-def dataPreprocess(data, numSamples, numAttributes):
-	for attributeNum in range(0, numAttributes):
-		if (isNumeric(data[0][attributeNum])):
-			for sampleNum in range(0, numSamples):
-				data[sampleNum][attributeNum] = float(data[sampleNum][attributeNum])
-		# else:
-		# 	for sampleNum in range(0, numSamples):
-		# 		if data[sampleNum][attributeNum] == "Present":
-		# 			data[sampleNum][attributeNum] = 1
-		# 		else:
-		# 			data[sampleNum][attributeNum] = 0
-	return data
 
 def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent, 
 	nominalPresentAndPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent):
@@ -147,14 +152,9 @@ def checkCorrect(samples):
 
 	return numCorrect/numSamples
 
-def bayes(fileName):
-	samples = getData(fileName)
-
+def bayes(samples):
 	numSamples = len(samples)
-	numCols = len(samples[0]) 
-	dataPreprocess(samples, numSamples, numCols)
-
-	numAttributes = numCols - 2 #removing ground truth column and my assignment column
+	numAttributes = len(samples[0]) - 2
 
 	meansPresent = [0]*(numAttributes)
 	variancesPresent = [0]*(numAttributes)
@@ -215,4 +215,6 @@ def bayes(fileName):
 
 	print checkCorrect(samples)
 
-bayes("project3_dataset1.txt") 
+fileName = "project3_dataset2.txt"
+samples = getData(fileName)
+bayes(samples) 
