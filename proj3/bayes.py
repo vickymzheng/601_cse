@@ -215,6 +215,32 @@ def bayes(samples):
 
 	print checkCorrect(samples)
 
+def tenCrossVal(samples):
+	numSamples = len(samples)
+	sizeTestSet = numSamples/10
+	sizeTraining = numSamples - sizeTestSet
+	k = 10
+	testSets = [[] for x in range(k)]
+	trainingSets = [[] for x in range(k)]
+
+	totalSamples = 0
+	for i in range(0,k):
+		startIndex = sizeTestSet*i
+		endIndex = startIndex + sizeTestSet
+
+		if i == 9:
+			endIndex = numSamples
+
+		testSets[i] = samples[startIndex:endIndex]
+		trainingSets[i] = samples[0:startIndex] + samples[endIndex:numSamples]
+
+		sizeTestSet = len(testSets[i])
+		sizeTrainingSet = len(trainingSets[i])
+		if (sizeTestSet + sizeTrainingSet != numSamples):
+			print "something went wrong"
+
+
 fileName = "project3_dataset2.txt"
 samples = getData(fileName)
 bayes(samples) 
+tenCrossVal(samples)
