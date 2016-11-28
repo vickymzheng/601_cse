@@ -152,7 +152,7 @@ def checkCorrect(samples):
 
 	return numCorrect/numSamples
 
-def bayes(samples):
+def bayes(samples, testSet):
 	numSamples = len(samples)
 	numAttributes = len(samples[0]) - 2
 
@@ -186,7 +186,7 @@ def bayes(samples):
 	present = present/numSamples
 	notPresent = notPresent/numSamples
 
-	for sample in samples:
+	for sample in testSet:
 		attributes = sample[0:numAttributes]
 		attributeProbabilitiesPresent = [0]*numAttributes
 		attributeProbabilitiesAbsent = [0]*numAttributes
@@ -213,7 +213,7 @@ def bayes(samples):
 		else:
 			sample[-1] = 0
 
-	print checkCorrect(samples)
+	print checkCorrect(testSet)
 
 def tenCrossVal(samples):
 	numSamples = len(samples)
@@ -239,8 +239,10 @@ def tenCrossVal(samples):
 		if (sizeTestSet + sizeTrainingSet != numSamples):
 			print "something went wrong"
 
+		bayes(trainingSets[i], testSets[i])
+
 
 fileName = "project3_dataset2.txt"
 samples = getData(fileName)
-bayes(samples) 
+# bayes(samples) 
 tenCrossVal(samples)
