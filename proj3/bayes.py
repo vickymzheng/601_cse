@@ -126,9 +126,9 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 
 def prior(samples, present, notPresent):
 	for sample in samples:
-		if sample[-1] == 1:
+		if sample[-2] == 1:
 			present+=1
-		if sample[-1] == 0:
+		if sample[-2] == 0:
 			notPresent+=1
 	return (present, notPresent)
 
@@ -144,10 +144,10 @@ def listProduct(probList):
 	return product
 
 def performance(samples):
-	truePositive = 0
-	falsePositive = 0
-	trueNegative = 0
-	falseNegative = 0 
+	truePositive = 0.0
+	falsePositive = 0.0
+	trueNegative = 0.0
+	falseNegative = 0.0 
 	numSamples = len(samples)
 	for sample in samples:
 		if (sample[-2] == 1 and sample[-1] == 1):
@@ -158,6 +158,14 @@ def performance(samples):
 			trueNegative+=1
 		else:
 			falseNegative+=1
+
+	# print "True positive: " + str(truePositive)
+	# print "False negative: " + str(falsePositive)
+	# print "True negative: " + str(trueNegative)
+	# print "False negative: " + str(falseNegative)
+
+	accuracy = (truePositive+trueNegative)/numSamples
+	print "Accuracy: " + str(accuracy)
 
 def bayes(samples, testSet, fullSamples):
 	numSamples = len(samples)
@@ -190,8 +198,11 @@ def bayes(samples, testSet, fullSamples):
 	present = 0.0
 	notPresent = 0.0
 	(present, notPresent) = prior(samples, present, notPresent)
+
 	present = present/numSamples
 	notPresent = notPresent/numSamples
+
+
 
 	for sample in testSet:
 		attributes = sample[0:numAttributes]
@@ -220,7 +231,7 @@ def bayes(samples, testSet, fullSamples):
 		else:
 			sample[-1] = 0
 
-	#print performance(testSet)
+	performance(testSet)
 
 def tenCrossVal(samples):
 	numSamples = len(samples)
@@ -250,7 +261,7 @@ def tenCrossVal(samples):
 		bayes(trainingSets[i], testSets[i], samples)
 
 
-fileName = "project3_dataset1.txt"
+fileName = "project3_dataset2.txt"
 samples = getData(fileName)
 # bayes(samples) 
 tenCrossVal(samples)
