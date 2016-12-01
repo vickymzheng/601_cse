@@ -143,16 +143,23 @@ def listProduct(probList):
 		product*=prob
 	return product
 
-def checkCorrect(samples):
-	numCorrect = 0.0
+def performance(samples):
+	truePositive = 0
+	falsePositive = 0
+	trueNegative = 0
+	falseNegative = 0 
 	numSamples = len(samples)
 	for sample in samples:
-		if (sample[-2] == sample[-1]):
-			numCorrect+=1
+		if (sample[-2] == 1 and sample[-1] == 1):
+			truePositive+=1
+		elif (sample[-2] == 1 and sample[-1] == 0):
+			falsePositive+=1
+		elif (sample[-2] == 0 and sample[-1] == 0):
+			trueNegative+=1
+		else:
+			falseNegative+=1
 
-	return numCorrect/numSamples
-
-def bayes(samples, testSet):
+def bayes(samples, testSet, fullSamples):
 	numSamples = len(samples)
 	numAttributes = len(samples[0]) - 2
 
@@ -213,12 +220,13 @@ def bayes(samples, testSet):
 		else:
 			sample[-1] = 0
 
-	print checkCorrect(testSet)
+	#print performance(testSet)
 
 def tenCrossVal(samples):
 	numSamples = len(samples)
 	sizeTestSet = numSamples/10
 	sizeTraining = numSamples - sizeTestSet
+
 	k = 10
 	testSets = [[] for x in range(k)]
 	trainingSets = [[] for x in range(k)]
@@ -239,10 +247,10 @@ def tenCrossVal(samples):
 		if (sizeTestSet + sizeTrainingSet != numSamples):
 			print "something went wrong"
 
-		bayes(trainingSets[i], testSets[i])
+		bayes(trainingSets[i], testSets[i], samples)
 
 
-fileName = "project3_dataset2.txt"
+fileName = "project3_dataset1.txt"
 samples = getData(fileName)
 # bayes(samples) 
 tenCrossVal(samples)
