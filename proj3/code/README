@@ -1,0 +1,1 @@
+bayes.py contains our implementation of Naive Bayes. The input file can be modified on line 282. The program can be run with the command "python bayes.py." The program prints out the Accuracy, precision, recall and F value.  
