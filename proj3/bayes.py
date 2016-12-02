@@ -143,7 +143,7 @@ def listProduct(probList):
 		product*=prob
 	return product
 
-def performance(samples):
+def calcPerformance(samples):
 	truePositive = 0.0
 	falsePositive = 0.0
 	trueNegative = 0.0
@@ -170,11 +170,14 @@ def performance(samples):
 	precision = truePositive / (truePositive + falsePositive)
 	recall = truePositive / (truePositive + falseNegative)
 	F = (2 * recall * precision) / (recall + precision)
-	print "Accuracy: " + str(accuracy)
-	print "Precision: " + str(precision)
-	print "Recall: " + str(recall)
-	print "F: " + str(F)
-def bayes(samples, testSet, fullSamples):
+
+	# print "Accuracy: " + str(accuracy)
+	# print "Precision: " + str(precision)
+	# print "Recall: " + str(recall)
+	# print "F: " + str(F)
+
+	return [accuracy, precision, recall, F]
+def bayes(samples, testSet, fullSamples, performance):
 	numSamples = len(samples)
 	numAttributes = len(samples[0]) - 2
 
@@ -238,7 +241,8 @@ def bayes(samples, testSet, fullSamples):
 		else:
 			sample[-1] = 0
 
-	performance(testSet)
+	kPerformance = calcPerformance(testSet)
+	addLists(performance, kPerformance)
 
 def tenCrossVal(samples):
 	numSamples = len(samples)
@@ -248,8 +252,8 @@ def tenCrossVal(samples):
 	k = 10
 	testSets = [[] for x in range(k)]
 	trainingSets = [[] for x in range(k)]
+	performance = [0]*4 # 0 = Accuracy, 1 = Precision, 2 = Recall, 3 = F 
 
-	totalSamples = 0
 	for i in range(0,k):
 		startIndex = sizeTestSet*i
 		endIndex = startIndex + sizeTestSet
@@ -265,10 +269,17 @@ def tenCrossVal(samples):
 		if (sizeTestSet + sizeTrainingSet != numSamples):
 			print "something went wrong"
 
-		bayes(trainingSets[i], testSets[i], samples)
+		bayes(trainingSets[i], testSets[i], samples, performance)
+
+	divideList(performance, 10)
+
+	print "Accuracy: " + str(performance[0])
+	print "Precision: " + str(performance[1])
+	print "Recall: " + str(performance[2])
+	print "F: " + str(performance[3])
 
 
-fileName = "project3_dataset2.txt"
+fileName = "project3_dataset1.txt"
 samples = getData(fileName)
 # bayes(samples) 
 tenCrossVal(samples)
