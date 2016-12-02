@@ -13,20 +13,39 @@ def getData(fileName):
 	    line = toRead.readline()
 	return samples
 
-def checkCorrect(samples):
-	numCorrect = 0.0
+def calcPerformance(samples):
+	truePositive = 0.0
+	falsePositive = 0.0
+	trueNegative = 0.0
+	falseNegative = 0.0 
 	numSamples = len(samples)
 	for sample in samples:
-		if (sample[-2] == sample[-1]):
-			numCorrect+=1
+		#sample[-1] is my classification
+		#sample[-2] is ground truth
+		if (sample[-2] == 1 and sample[-1] == 1):
+			truePositive+=1
+		elif (sample[-2] == 0 and sample[-1] == 1):
+			falsePositive+=1
+		elif (sample[-2] == 0 and sample[-1] == 0):
+			trueNegative+=1
+		else:
+			falseNegative+=1
 
-	return numCorrect/numSamples
+	accuracy = (truePositive+trueNegative)/numSamples
+	precision = truePositive / (truePositive + falsePositive)
+	recall = truePositive / (truePositive + falseNegative)
+	F = (2 * recall * precision) / (recall + precision)
+
+	print "Accuracy: " + str(accuracy)
+	print "Precision: " + str(precision)
+	print "Recall: " + str(recall)
+	print "F: " + str(F)
 
 def randomClassifer(fileName):
 	samples = getData(fileName)
 	for sample in samples:
 		sample[-1] = random.randint(0,1)
 		
-	print checkCorrect(samples)
+	calcPerformance(samples)
 
 randomClassifer("project3_dataset1.txt")
