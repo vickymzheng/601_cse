@@ -1,0 +1,116 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX Example: Project Report
+%
+% Source: http://www.howtotex.com
+%
+% Feel free to distribute this example, but please keep the referral
+% to howtotex.com
+% Date: March 2011 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[paper=letter, fontsize=11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+
+\usepackage[english]{babel}															% English language/hyphenation
+%\usepackage[protrusion=true,expansion=true]{microtype}	
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[pdftex]{graphicx}	
+\usepackage{url}
+\usepackage{siunitx}
+\usepackage{subfig}
+\usepackage{pgf}
+\usepackage{float}
+
+
+
+%%% Custom sectioning
+\usepackage{sectsty}
+\allsectionsfont{ \normalfont\scshape}
+
+
+%%% Custom headers/footers (fancyhdr package)
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}											% No page header
+\fancyfoot[L]{}											% Empty 
+\fancyfoot[C]{}											% Empty
+\fancyfoot[R]{\thepage}									% Pagenumbering
+\renewcommand{\headrulewidth}{0pt}			% Remove header underlines
+\renewcommand{\footrulewidth}{0pt}				% Remove footer underlines
+\setlength{\headheight}{13.6pt}
+
+
+%%% Equation and float numbering
+\numberwithin{equation}{section}		% Equationnumbering: section.eq#
+\numberwithin{figure}{section}			% Figurenumbering: section.fig#
+\numberwithin{table}{section}				% Tablenumbering: section.tab#
+
+
+%%% Maketitle metadata
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+\title{
+		%\vspace{-1in} 	
+		\usefont{OT1}{bch}{b}{n}
+		\normalfont \normalsize \textsc{State University at Buffalo} \\ [25pt]
+		\horrule{0.5pt} \\[0.4cm]
+		\Large Project 3 : Classification Algorithms \\
+		\horrule{2pt} \\[0.5cm]
+}
+\author{
+		\normalfont\large 								
+        Yuze Liu \hspace{0.6cm}50207903\\
+        \normalfont\large 
+        Luting Chen \hspace{0.5cm}50133507\\
+        \normalfont\large 
+        Vicky Zheng \hspace{0.5cm}50037709\\
+}
+\date{\large 12/10/2016}
+%%% Begin document
+\begin{document}
+\maketitle
+%\newdimen\origiwspc%
+\section{K-Nearest Neighbors Algorithm}
+\subsection{Algorithm Description}
+
+\subsection{Implementation}
+
+\subsection{Result Evaluation}
+
+\section{Decision Tree}
+\subsection{Algorithm Description}
+
+\subsection{Implementation}
+
+\subsection{Result Evaluation}
+
+\section{Decision Tree with Random Forest}
+\subsection{Algorithm Description}
+
+\subsection{Implementation}
+
+\subsection{Result Evaluation}
+
+\section{Decision Tree with Boosting}
+\subsection{Algorithm Description}
+
+\subsection{Implementation}
+
+\subsection{Result Evaluation}
+
+\section{Naive Bayes}
+\subsection{Algorithm Description}
+
+\subsection{Implementation}
+
+\subsection{Result Evaluation}
+
+% \begin{thebibliography}{1}
+% \bibitem{sp_clustering}
+% Ng, Andrew Y., Michael I. Jordan, and Yair Weiss. "On spectral clustering: Analysis and an algorithm." Advances in neural information processing systems 2 (2002): 849-856.
+% \end{thebibliography}
+
+
+\end{document}
