@@ -150,9 +150,11 @@ def performance(samples):
 	falseNegative = 0.0 
 	numSamples = len(samples)
 	for sample in samples:
+		#sample[-1] is my classification
+		#sample[-2] is ground truth
 		if (sample[-2] == 1 and sample[-1] == 1):
 			truePositive+=1
-		elif (sample[-2] == 1 and sample[-1] == 0):
+		elif (sample[-2] == 0 and sample[-1] == 1):
 			falsePositive+=1
 		elif (sample[-2] == 0 and sample[-1] == 0):
 			trueNegative+=1
@@ -165,8 +167,13 @@ def performance(samples):
 	# print "False negative: " + str(falseNegative)
 
 	accuracy = (truePositive+trueNegative)/numSamples
+	precision = truePositive / (truePositive + falsePositive)
+	recall = truePositive / (truePositive + falseNegative)
+	F = (2 * recall * precision) / (recall + precision)
 	print "Accuracy: " + str(accuracy)
-
+	print "Precision: " + str(precision)
+	print "Recall: " + str(recall)
+	print "F: " + str(F)
 def bayes(samples, testSet, fullSamples):
 	numSamples = len(samples)
 	numAttributes = len(samples[0]) - 2
