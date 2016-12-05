@@ -244,12 +244,11 @@ def bayes(samples, testSet, fullSamples, performance):
 	kPerformance = calcPerformance(testSet)
 	addLists(performance, kPerformance)
 
-def tenCrossVal(samples):
+def kCrossVal(samples,k):
 	numSamples = len(samples)
-	sizeTestSet = numSamples/10
+	sizeTestSet = numSamples/k
 	sizeTraining = numSamples - sizeTestSet
 
-	k = 10
 	testSets = [[] for x in range(k)]
 	trainingSets = [[] for x in range(k)]
 	performance = [0]*4 # 0 = Accuracy, 1 = Precision, 2 = Recall, 3 = F 
@@ -258,7 +257,7 @@ def tenCrossVal(samples):
 		startIndex = sizeTestSet*i
 		endIndex = startIndex + sizeTestSet
 
-		if i == 9:
+		if i == (k-1):
 			endIndex = numSamples
 
 		testSets[i] = samples[startIndex:endIndex]
@@ -271,7 +270,7 @@ def tenCrossVal(samples):
 
 		bayes(trainingSets[i], testSets[i], samples, performance)
 
-	divideList(performance, 10)
+	divideList(performance, k)
 
 	print "Accuracy: " + str(performance[0])
 	print "Precision: " + str(performance[1])
@@ -282,4 +281,4 @@ def tenCrossVal(samples):
 fileName = "project3_dataset2.txt"
 samples = getData(fileName)
 # bayes(samples) 
-tenCrossVal(samples)
+kCrossVal(samples,10)
