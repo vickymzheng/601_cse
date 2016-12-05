@@ -1,9 +1,12 @@
 # import sys
 import math
 
-def divideList(someList, divisor):
-	for index in range(0, len(someList)):
-		someList[index] = someList[index]/divisor
+def isNumeric(potentialNumber):
+	try:
+		float(potentialNumber)
+		return True
+	except ValueError:
+		return False
 
 def dataPreprocess(data, numSamples, numAttributes):
 	for attributeNum in range(0, numAttributes):
@@ -34,20 +37,6 @@ def getData(fileName):
 	dataPreprocess(samples, numSamples, numCols)
 	return samples
 
-def getVariance(numList, mean, numSamples):
-	sumSquareDiff = 0
-	for sample in numList:
-		sumSquareDiff = sumSquareDiff + (mean - sample)**2
-	variance = sumSquareDiff/numSamples
-	return variance
-
-def isNumeric(potentialNumber):
-	try:
-		float(potentialNumber)
-		return True
-	except ValueError:
-		return False
-
 def addLists(list1, list2):
 	#the two lists should be the same length
 	numElements = len(list1)
@@ -55,6 +44,16 @@ def addLists(list1, list2):
 		if (isNumeric(list2[index])):
 			list1[index] = list1[index] + list2[index]
 
+def divideList(someList, divisor):
+	for index in range(0, len(someList)):
+		someList[index] = someList[index]/divisor
+
+def getVariance(numList, mean, numSamples):
+	sumSquareDiff = 0
+	for sample in numList:
+		sumSquareDiff = sumSquareDiff + (mean - sample)**2
+	variance = sumSquareDiff/numSamples
+	return variance
 
 def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbsent, 
 	nominalPresentAndPresent, nominalAbsentAndPresent, nominalPresentAndAbsent, nominalAbsentAndAbsent):
