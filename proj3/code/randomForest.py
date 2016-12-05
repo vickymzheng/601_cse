@@ -33,7 +33,7 @@ class TreeNode:
     def isleafnode(self,dataset_m, threshold_impurity):
         labels = self.get_labels(dataset_m)
         if len(labels) == 1:
-            return 1
+            return 1=
         if len(labels) == 0:
             return 1
         

@@ -1,5 +1,6 @@
 # Naive bayes implementation for proj3
 import math
+import random
 
 def isNumeric(potentialNumber):
 	try:
@@ -256,8 +257,10 @@ def kCrossVal(samples,k):
 
 	return performance
 
+random.seed(5)
+
 fileName = "project3_dataset2.txt"
 samples = getData(fileName)
-# bayes(samples) 
+random.shuffle(samples)
 performance = kCrossVal(samples,10)
 printPerformance(performance)
