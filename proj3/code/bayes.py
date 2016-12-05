@@ -272,13 +272,13 @@ def kCrossVal(samples,k):
 
 	divideList(performance, k)
 
-	print "Accuracy: " + str(performance[0])
-	print "Precision: " + str(performance[1])
-	print "Recall: " + str(performance[2])
-	print "F: " + str(performance[3])
-
+	return performance
 
 fileName = "project3_dataset2.txt"
 samples = getData(fileName)
 # bayes(samples) 
-kCrossVal(samples,10)
+performance = kCrossVal(samples,10)
+print "Accuracy: " + str(performance[0])
+print "Precision: " + str(performance[1])
+print "Recall: " + str(performance[2])
+print "F: " + str(performance[3])
