@@ -13,12 +13,6 @@ def dataPreprocess(data, numSamples, numAttributes):
 		if (isNumeric(data[0][attributeNum])):
 			for sampleNum in range(0, numSamples):
 				data[sampleNum][attributeNum] = float(data[sampleNum][attributeNum])
-		# else:
-		# 	for sampleNum in range(0, numSamples):
-		# 		if data[sampleNum][attributeNum] == "Present":
-		# 			data[sampleNum][attributeNum] = 1
-		# 		else:
-		# 			data[sampleNum][attributeNum] = 0
 	return data
 
 def getData(fileName):
@@ -67,16 +61,12 @@ def statData(samples, meansPresent, meansAbsent, variancesPresent, variancesAbse
 			#this means present
 			presentSamples.append(sample)
 			numPresent+=1
-			#meansPresent =  map(lambda x,y: x + y, meansPresent, sample[0:-2])
 			addLists(meansPresent, sample[0:-2])
 		else:
 			absentSamples.append(sample)
 			numAbsent+=1
-			#meansAbsent =  map(lambda x,y: x + y, meansAbsent, sample[0:-2])
 			addLists(meansAbsent, sample[0:-2])
 
-	#meansPresent = map(lambda x: x/numPresent, meansPresent)
-	#meansAbsent = map(lambda x: x/numAbsent, meansAbsent)
 	divideList(meansPresent, numPresent)
 	divideList(meansAbsent, numAbsent)
 
@@ -160,20 +150,10 @@ def calcPerformance(samples):
 		else:
 			falseNegative+=1
 
-	# print "True positive: " + str(truePositive)
-	# print "False negative: " + str(falsePositive)
-	# print "True negative: " + str(trueNegative)
-	# print "False negative: " + str(falseNegative)
-
 	accuracy = (truePositive+trueNegative)/numSamples
 	precision = truePositive / (truePositive + falsePositive)
 	recall = truePositive / (truePositive + falseNegative)
 	F = (2 * recall * precision) / (recall + precision)
-
-	# print "Accuracy: " + str(accuracy)
-	# print "Precision: " + str(precision)
-	# print "Recall: " + str(recall)
-	# print "F: " + str(F)
 
 	return [accuracy, precision, recall, F]
 
@@ -205,11 +185,6 @@ def bayes(samples, testSet, fullSamples, performance):
 	if (not (numPresent + numAbsent == numSamples)):
 		print "Something went wrong"
 		return
-
-	# print meansPresent
-	# print meansAbsent
-	# print variancesPresent
-	# print variancesAbsent
 
 	present = 0.0
 	notPresent = 0.0
