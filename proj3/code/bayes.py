@@ -177,6 +177,13 @@ def calcPerformance(samples):
 	# print "F: " + str(F)
 
 	return [accuracy, precision, recall, F]
+
+def printPerformance(performance):
+	print "Accuracy: " + str(performance[0])
+	print "Precision: " + str(performance[1])
+	print "Recall: " + str(performance[2])
+	print "F: " + str(performance[3])
+
 def bayes(samples, testSet, fullSamples, performance):
 	numSamples = len(samples)
 	numAttributes = len(samples[0]) - 2
@@ -278,7 +285,4 @@ fileName = "project3_dataset2.txt"
 samples = getData(fileName)
 # bayes(samples) 
 performance = kCrossVal(samples,10)
-print "Accuracy: " + str(performance[0])
-print "Precision: " + str(performance[1])
-print "Recall: " + str(performance[2])
-print "F: " + str(performance[3])
+printPerformance(performance)
