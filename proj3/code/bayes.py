@@ -1,4 +1,4 @@
-# import sys
+# Naive bayes implementation for proj3
 import math
 
 def isNumeric(potentialNumber):
@@ -238,6 +238,7 @@ def kCrossVal(samples,k):
 		startIndex = sizeTestSet*i
 		endIndex = startIndex + sizeTestSet
 
+		#The last set will have the remainder of the elements.
 		if i == (k-1):
 			endIndex = numSamples
 
