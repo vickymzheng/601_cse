@@ -228,7 +228,8 @@ def bayes(samples, testSet, fullSamples, performance):
 
 def bayesQuery(samples, query):
 	numSamples = len(samples)
-	numAttributes = len(samples[0]) - 2
+	numCols = len(samples[0])
+	numAttributes = numCols - 2
 	
 	present = 0.0
 	notPresent = 0.0
@@ -237,6 +238,7 @@ def bayesQuery(samples, query):
 	present = present/numSamples
 	notPresent = notPresent/numSamples
 
+	print "Query: " + str(query) 
 	print "Probability of a sample being present: " + str(present)
 	print "Probability of a sample being absent: " + str(notPresent)
 
