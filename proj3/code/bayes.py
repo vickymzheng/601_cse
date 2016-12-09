@@ -203,7 +203,7 @@ def bayes(samples, testSet, fullSamples, performance):
 	notPresent = 0.0
 	(present, notPresent) = prior(samples, present, notPresent)
 
-	if (present == 0 || notPresent == 0):
+	if (present == 0 or notPresent == 0):
 		present += 1
 		notPresent+=1
 		numSamples+=2 
@@ -405,7 +405,7 @@ def kCrossVal4(samples,k):
 
 	return performance 
 
-fileName = "project3_dataset4.txt"
+fileName = "project3_dataset2.txt"
 demo = False
 if (int(fileName[16]) == 4):
 	demo = True
