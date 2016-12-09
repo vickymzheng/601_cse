@@ -239,8 +239,10 @@ def bayesQuery(samples, query):
 	notPresent = notPresent/numSamples
 
 	print "Query: " + str(query) 
+	print ""
 	print "Probability of a sample being present: " + str(present)
 	print "Probability of a sample being absent: " + str(notPresent)
+	print ""
 
 	probsPresent = [0]*numAttributes
 	probsAbsent = [0]*numAttributes
@@ -260,19 +262,23 @@ def bayesQuery(samples, query):
 		probsPresent[attributeIndex] = numPresentSamples/totalAttributeSamples
 		probsAbsent[attributeIndex] = numAbsentSamples/totalAttributeSamples
 
+	print ""
 	print "Probability for each attribute and present classification: " + str(probsPresent)
 	print "Probability for each attribute and absent classification: " + str(probsAbsent)
+	print ""
 
 	probPresent = reduce(lambda x, y: x*y, probsPresent) * present
 	probAbsent = reduce(lambda x, y: x*y, probsAbsent) * notPresent
 
+	print ""
 	print "Probability of X being present: " + str(probPresent)
 	print "Probability of X being absent: " + str(probAbsent)
+	print ""
 
 	if (probPresent > probAbsent):
-		print "Will be classified as present"
+		print "X will be classified as present"
 	else:
-		print "Will be classified as absent"
+		print "X will be classified as absent"
 	
 
 def kCrossVal(samples,k):
