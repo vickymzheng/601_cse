@@ -152,9 +152,21 @@ def calcPerformance(samples):
 			falseNegative+=1
 
 	accuracy = (truePositive+trueNegative)/numSamples
-	precision = truePositive / (truePositive + falsePositive)
-	recall = truePositive / (truePositive + falseNegative)
-	F = (2 * recall * precision) / (recall + precision)
+
+	if (truePositive + falsePositive == 0):
+		precision = 0
+	else:
+		precision = truePositive / (truePositive + falsePositive)
+
+	if (truePositive + falseNegative == 0):
+		recall = 0
+	else: 
+		recall = truePositive / (truePositive + falseNegative)
+		
+	if (recall + precision == 0):
+		F = 0
+	else: 
+		F = (2 * recall * precision) / (recall + precision)
 
 	return [accuracy, precision, recall, F]
 
@@ -314,6 +326,81 @@ def kCrossVal(samples,k):
 
 	return performance
 
+def bayesQuery4(samples, query):
+	numSamples = len(samples)
+	numCols = len(samples[0])
+	numAttributes = numCols - 2
+	
+	present = 0.0
+	notPresent = 0.0
+	(present, notPresent) = prior(samples, present, notPresent)
+	
+	present = present/numSamples
+	notPresent = notPresent/numSamples
+
+	probsPresent = [0]*numAttributes
+	probsAbsent = [0]*numAttributes
+
+	for attributeIndex in range(0, numAttributes):
+		queryAttribute = query[attributeIndex]
+		numPresentSamples = 0.0
+		numAbsentSamples = 0.0
+		for sample in samples:
+			if (sample[attributeIndex] == queryAttribute):
+				if sample[-2] == 1:
+					numPresentSamples+=1
+				else: 
+					numAbsentSamples+=1
+		
+		totalAttributeSamples = numPresentSamples+numAbsentSamples 
+		probsPresent[attributeIndex] = numPresentSamples/totalAttributeSamples
+		probsAbsent[attributeIndex] = numAbsentSamples/totalAttributeSamples
+
+
+	probPresent = reduce(lambda x, y: x*y, probsPresent) * present
+	probAbsent = reduce(lambda x, y: x*y, probsAbsent) * notPresent
+
+	if (probPresent > probAbsent):
+		return 1
+	else:
+		return 0
+	
+
+def kCrossVal4(samples,k):
+	numSamples = len(samples)
+	sizeTestSet = numSamples/k
+	sizeTraining = numSamples - sizeTestSet
+
+	testSets = [[] for x in range(k)]
+	trainingSets = [[] for x in range(k)]
+	performance = [0]*4 # 0 = Accuracy, 1 = Precision, 2 = Recall, 3 = F 
+
+	for i in range(0,k):
+		startIndex = sizeTestSet*i
+		endIndex = startIndex + sizeTestSet
+
+		#The last set will have the remainder of the elements.
+		if i == (k-1):
+			endIndex = numSamples
+
+		testSets[i] = samples[startIndex:endIndex]
+		trainingSets[i] = samples[0:startIndex] + samples[endIndex:numSamples]
+
+		sizeTestSet = len(testSets[i])
+		sizeTrainingSet = len(trainingSets[i])
+		if (sizeTestSet + sizeTrainingSet != numSamples):
+			print "something went wrong"
+
+		for testSample in testSets[i]:
+			testSample[-1] = bayesQuery4(trainingSets[i], testSample)
+
+		kPerformance = calcPerformance(testSets[i])
+		addLists(performance, kPerformance)
+
+
+	divideList(performance, k)
+
+	return performance 
 
 fileName = "project3_dataset4.txt"
 demo = False
@@ -330,10 +417,5 @@ else:
 	query = ["sunny", "cool", "high", "weak"] 
 	bayesQuery(samples, query)
 
-	# for sample in samples:
-	# sample[-1]  = bayesQuery(samples, sample)
-
-	# performance = calcPerformance(samples)
+	# performance = kCrossVal4(samples,10)
 	# printPerformance(performance)
-	# for sample in samples:
-	# 	print sample
