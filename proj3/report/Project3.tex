@@ -74,11 +74,39 @@
 %\newdimen\origiwspc%
 \section{K-Nearest Neighbors Algorithm}
 \subsection{Algorithm Description}
+K-Nearest-Neighbors algorithm is a method used for classification and regression. In K-NN classification, the output will be the class membership. The objective will be classified by the majority votes of its neighbors, with the objective being assigned to the class most common among its k nearest neighbors.\\
+In this project, we implement the 10-fold cross validation with the K-NN classify algorithm.\\
+First,we split the whole dataset into 10 parts, we pick one part as the testing set and other 10 parts as the training set. For each sample in the testing set, we calculate the Euclidean distance between this sample to all the other samples in the training set. Then we pick the k nearest samples as its neighbors. We will classify this sample by the majority votes of that k neighbors.\\
+In the project, there are only 2 classes. So we just need to compare the two weights.If the neighbor is classified as class 0, then the weight of this sample to be classified in class 0 will be : $weight0 = weight0 + \frac{1}{dis}$, dis is the Euclidean distance between the neighbors and the sample, other wise $weight1 = weight1 + \frac{1}{dis}$, then we compare weight0 and weight1 after go through all the neighbors of this sample, the sample will be classified with the higher weight.\\
+After get the classification result from the test set, then we calculate all the four measurement values and then we pick another dataset from the remaining 9 datasets as the test set and other 9 as training set, repeat this procedure until all the ten datasets have been used as test set once.\\
+In the end, we calculate the average of the four measurement values.  
 
 \subsection{Pros and Cons}
+Advantage:\\
+The algorithm is effective when the dataset is very large.\\
+The algorithm is robust to noisy training data.\\
 
+\noindent Disadvantage:\\
+Need to determine the value of parameter K, need to test to get the optimal solution.\\
+There are a lot of choices to choose what kind of distance we will use to determine the neighbors.\\
+Computation cost is quite high because we need to compute the distance of each query instance to all training samples.\\
+If we have nominal data, we need to label the nominal value first and then calculate the distance.\\
 \subsection{Result Evaluation}
+\noindent \underline{Results for project3 dataset1.txt are}: \\ 
+\textbf{Accuracy}: 0.92615914787\\
+\textbf{Precision}: 0.922329566995\\
+\textbf{Recall}: 0.87079481314\\
+\textbf{F}: 0.89442003084\\
 
+\noindent The above value is the optimal solution I get, k = 3\\
+
+\noindent \underline{Results for project3 dataset2.txt are}:\\
+\textbf{Accuracy}: 0.60625\\
+\textbf{Precision}: 0.411791272453\\
+\textbf{Recall}: 0.318770209838\\
+\textbf{F}: 0.357137604338\\
+
+\noindent The above value is the optimal solution I get, k = 4
 \section{Decision Tree}
 \subsection{Algorithm Description}
 
@@ -139,10 +167,10 @@ I implemented k-cross fold by randomly shuffling my dataset, and partitioning it
 \textbf{Recall}: 0.761451858741\\
 \textbf{F}: 0.612021438585\\
 
-\begin{thebibliography}{1}
-\bibitem{nv_bayes}
-Gaussian Example: https://www.youtube.com/watch?v=r1in0YNetG8
-\end{thebibliography}
+% \begin{thebibliography}{1}
+% \bibitem{sp_clustering}
+% Ng, Andrew Y., Michael I. Jordan, and Yair Weiss. "On spectral clustering: Analysis and an algorithm." Advances in neural information processing systems 2 (2002): 849-856.
+% \end{thebibliography}
 
 
 \end{document}
