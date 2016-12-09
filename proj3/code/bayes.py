@@ -203,10 +203,13 @@ def bayes(samples, testSet, fullSamples, performance):
 	notPresent = 0.0
 	(present, notPresent) = prior(samples, present, notPresent)
 
+	if (present == 0 || notPresent == 0):
+		present += 1
+		notPresent+=1
+		numSamples+=2 
+
 	present = present/numSamples
 	notPresent = notPresent/numSamples
-
-
 
 	for sample in testSet:
 		attributes = sample[0:numAttributes]

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  2 DEC 2016 14:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 DEC 2016 15:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1060,26 +1060,35 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 76.
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
+
+ []
+
 [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (/U
-sers/Vicky/601_cse/proj3/report/Project3.aux) ) 
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+(/Users/Vicky/601_cse/proj3/report/Project3.aux) ) 
 Here is how much of TeX's memory you used:
- 22036 strings out of 493014
- 442730 string characters out of 6133351
- 432116 words of memory out of 5000000
- 25236 multiletter control sequences out of 15000+600000
- 92254 words of font info for 95 fonts, out of 8000000 for 9000
+ 22054 strings out of 493014
+ 442899 string characters out of 6133351
+ 433112 words of memory out of 5000000
+ 25235 multiletter control sequences out of 15000+600000
+ 97236 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,11n,45p,10412b,378s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-d
-ist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2016/texmf-dist/fonts/type1
-/adobe/utopia/putr8a.pfb>
-Output written on /Users/Vicky/601_cse/proj3/report/Project3.pdf (2 pages, 2177
-1 bytes).
+{/usr/local/texlive/2016/texm
+f-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/fourier/fourier-mex.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/fourier/fourier-mlit.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
+ype1/public/fourier/fourier-ms.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/adobe/utopia/putr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/ado
+be/utopia/putri8a.pfb>
+Output written on /Users/Vicky/601_cse/proj3/report/Project3.pdf (3 pages, 4454
+6 bytes).
 PDF statistics:
- 19 PDF objects out of 1000 (max. 8388607)
- 13 compressed objects within 1 object stream
+ 38 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
