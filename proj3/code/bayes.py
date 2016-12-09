@@ -226,6 +226,53 @@ def bayes(samples, testSet, fullSamples, performance):
 	kPerformance = calcPerformance(testSet)
 	addLists(performance, kPerformance)
 
+def bayesQuery(samples, query):
+	numSamples = len(samples)
+	numAttributes = len(samples[0]) - 2
+	
+	present = 0.0
+	notPresent = 0.0
+	(present, notPresent) = prior(samples, present, notPresent)
+	
+	present = present/numSamples
+	notPresent = notPresent/numSamples
+
+	print "Probability of a sample being present: " + str(present)
+	print "Probability of a sample being absent: " + str(notPresent)
+
+	probsPresent = [0]*numAttributes
+	probsAbsent = [0]*numAttributes
+
+	for attributeIndex in range(0, numAttributes):
+		queryAttribute = query[attributeIndex]
+		numPresentSamples = 0.0
+		numAbsentSamples = 0.0
+		for sample in samples:
+			if (sample[attributeIndex] == queryAttribute):
+				if sample[-2] == 1:
+					numPresentSamples+=1
+				else: 
+					numAbsentSamples+=1
+		
+		totalAttributeSamples = numPresentSamples+numAbsentSamples 
+		probsPresent[attributeIndex] = numPresentSamples/totalAttributeSamples
+		probsAbsent[attributeIndex] = numAbsentSamples/totalAttributeSamples
+
+	print "Probability for each attribute and present classification: " + str(probsPresent)
+	print "Probability for each attribute and absent classification: " + str(probsAbsent)
+
+	probPresent = reduce(lambda x, y: x*y, probsPresent) * present
+	probAbsent = reduce(lambda x, y: x*y, probsAbsent) * notPresent
+
+	print "Probability of X being present: " + str(probPresent)
+	print "Probability of X being absent: " + str(probAbsent)
+
+	if (probPresent > probAbsent):
+		print "Will be classified as present"
+	else:
+		print "Will be classified as absent"
+	
+
 def kCrossVal(samples,k):
 	numSamples = len(samples)
 	sizeTestSet = numSamples/k
@@ -257,10 +304,18 @@ def kCrossVal(samples,k):
 
 	return performance
 
-random.seed(5)
 
-fileName = "project3_dataset2.txt"
+fileName = "project3_dataset4.txt"
+demo = False
+if (int(fileName[16]) == 4):
+	demo = True
+
+random.seed(5)
 samples = getData(fileName)
 random.shuffle(samples)
-performance = kCrossVal(samples,10)
-printPerformance(performance)
+if (not demo):
+	performance = kCrossVal(samples,10)
+	printPerformance(performance)
+else: 
+	query = ["sunny", "cool", "high", "weak"] 
+	bayesQuery(samples, query)
