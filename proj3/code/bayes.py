@@ -277,8 +277,10 @@ def bayesQuery(samples, query):
 
 	if (probPresent > probAbsent):
 		print "X will be classified as present"
+		return 1
 	else:
 		print "X will be classified as absent"
+		return 0
 	
 
 def kCrossVal(samples,k):
@@ -327,3 +329,11 @@ if (not demo):
 else: 
 	query = ["sunny", "cool", "high", "weak"] 
 	bayesQuery(samples, query)
+
+	# for sample in samples:
+	# sample[-1]  = bayesQuery(samples, sample)
+
+	# performance = calcPerformance(samples)
+	# printPerformance(performance)
+	# for sample in samples:
+	# 	print sample
