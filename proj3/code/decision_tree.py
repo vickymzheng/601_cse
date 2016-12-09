@@ -320,6 +320,9 @@ def print_tree(treenode_list, detail=1):
         node_num = len(treenode_list)
         for i in range(0,node_num):
             thisnode = treenode_list[i]
+            if thisnode.children_list != []:
+                print "node " , thisnode.node_index+1, 'use attribute ', thisnode.condition_feature, ' to split and 2 way splitting condition is ' , thisnode.single_uf ,' and other'
+
             print "node " , thisnode.node_index+1, 'includes samples ', thisnode.include_samples
 
 
