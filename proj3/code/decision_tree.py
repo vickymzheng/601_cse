@@ -5,6 +5,7 @@ import collections
 import re
 import random
 import pdb
+import math
 
 
 class TreeNode:
@@ -167,12 +168,14 @@ class TreeNode:
 
 
 ############### other functions #####################
-def assign_label1( treenode_list, features):
+def assign_label1( treenode_list, features,pdb_check):
     mylabel = treenode_list[0].nodelabel
     this_node = treenode_list[0]
     
     
     while( len(this_node.children_list) != 0 ):
+        #if pdb_check == 1:
+        #pdb.set_trace()
         if features[0,this_node.condition_feature] == this_node.single_uf:
             to_child_index = 0
         else:
@@ -191,7 +194,7 @@ def assign_labels(treenode_list, test_index, dataset_m):
     for i in range(0,num):
         
         features = dataset_m[ test_index[i] ,0:dims[1]-1]
-        mylabels[i] = assign_label1( treenode_list, features)
+        mylabels[i] = assign_label1( treenode_list, features,0)
 
     return mylabels
 
@@ -229,6 +232,40 @@ def create_dataset(filename):
         if filename == "project3_dataset1.txt":
             ints = [30]
             floats = range(0,30)
+        
+        if filename == "project3_dataset4.txt":
+            if parts[0] == "sunny":
+                parts[0] = 0
+            if parts[0] == "overcast":
+                parts[0] = 1
+            if parts[0] == "rain":
+                parts[0] = 2
+
+
+            if parts[1] == "hot":
+                parts[1] = 0
+            if parts[1] == "mild":
+                parts[1] = 1
+            if parts[1] == "cool":
+                parts[1] = 2
+                    
+                    
+            if parts[2] == "high":
+                parts[2] = 0
+            if parts[2] == "normal":
+                parts[2] = 1
+                    
+            if parts[3] == "weak":
+                parts[3] = 0
+            if parts[3] == "strong":
+                parts[3] = 1
+                    
+            ints = [4]
+            floats = []
+
+
+
+
 
         for i in ints:
             parts[i] = int(parts[i])
@@ -331,7 +368,7 @@ def calcPerformance(ground_truth, mylabels):
 
 
 
-def kCrossVal(dataset_m, feature_type,K):
+def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
     k = K
     dims = dataset_m.shape
     numSamples = dims[0]
@@ -345,7 +382,7 @@ def kCrossVal(dataset_m, feature_type,K):
     perf_sum = np.zeros(4)
     for i in range(0,k):
         startIndex = sizeTestSet*i
-        endIndex = startIndex + sizeTestSet
+        endIndex = startIndex + sizeTestSet-1
         test_index = range(startIndex,endIndex+1)
         train_index = np.delete(all_index,test_index)
         
@@ -355,20 +392,32 @@ def kCrossVal(dataset_m, feature_type,K):
         treenode_list = []
         threshold_impurity = 0
         
-        root = TreeNode(0,[],train_index,feature_type)
-        treenode_list.append(root)
-        root_impurity = treenode_list[0].classification_error(dataset_m)
-        treenode_list = treenode_list[0].hunt(dataset_m, root_impurity, treenode_list, threshold_impurity)
-        treenode_list_label(treenode_list, dataset_m)
-
-        #for i in range(0,len(treenode_list)):
-            #print 'node label', treenode_list[i].nodelabel
-        
-        
-        test_labels = assign_labels(treenode_list, test_index, dataset_m)
         ground_truth = []
         for j in range(0,len(test_index)):
             ground_truth.append(dataset_m[test_index[j],dims[1]-1])
+        
+        test_labels = []
+        
+        if test_method == 1:    # decision tree implementation
+            root = TreeNode(0,[],train_index,feature_type)
+            treenode_list.append(root)
+            root_impurity = treenode_list[0].classification_error(dataset_m)
+            treenode_list = treenode_list[0].hunt(dataset_m, root_impurity, treenode_list, threshold_impurity)
+            treenode_list_label(treenode_list, dataset_m)
+
+            #for i in range(0,len(treenode_list)):
+                #print 'node label', treenode_list[i].nodelabel
+        
+        
+            test_labels = assign_labels(treenode_list, test_index, dataset_m)
+            
+        if test_method == 2:
+            print " cross validation for round ", i+1
+            #pdb.set_trace()
+            test_labels = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], boosting_clf_num, 0.8)
+            print "\n\n"
+        
+        
         
         
         print 'cross validation round ', i+1
@@ -383,9 +432,127 @@ def kCrossVal(dataset_m, feature_type,K):
     return [performance, perf_sum]
 
 
+def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
+    class_num = len(classes)
+    dims = dataset_m.shape
+    
+    dw = [float(1.0/class_num)] * dims[0]
+    dw_a = np.array(dw)
+    dw_a = dw_a / sum(dw_a)
+    dw = dw_a
+    clfw = [0] * k
 
-# main program
-filename = "project3_dataset1.txt"
+
+    k_classifiers = []
+    choose_sample = int( train_rates * dims[0])
+    while (len(k_classifiers) != k):
+        #pdb.set_trace()
+#        dw_a = np.array(dw)
+#        dw_a = dw_a / sum(dw_a)
+        pdw = dw/sum(dw)
+        choose_index = np.random.choice( range(0,dims[0]), size=choose_sample, replace=True, p=pdw)
+        #print choose_index
+        #choose_index = list(choose_index)
+        D = dataset_m[ choose_index, :]
+        #D = D[0]
+
+        # build decision tree M from D
+        treenode_list = []
+        threshold_impurity = 0
+        root = TreeNode(0,[],range(0,choose_sample),feature_type)
+        treenode_list.append(root)
+        root_impurity = treenode_list[0].classification_error(D)
+        treenode_list = treenode_list[0].hunt(D, root_impurity, treenode_list, threshold_impurity)
+        treenode_list_label(treenode_list, D)
+
+        # compute Err(M)
+        test_labels = assign_labels(treenode_list, range(0,choose_sample), D)
+        err = 0
+        for i in range(0,choose_sample):
+            map_index = choose_index[i]
+            if test_labels[i] != dataset_m[map_index, dims[1]-1]:
+                err = err + dw[map_index]
+    
+        print 'ERR(M) is', err
+        # valid decision tree
+        if err <= 0.5:
+            # add current decision tree
+            if err == 0:
+                err = 1e-10
+            
+            k_classifiers.append(treenode_list)
+
+            # compute this decison tree classifer weight
+            
+            clfw[len(k_classifiers)-1] = math.log( float(1-err) / float(err))
+            
+
+            # compute D's data weights
+            old_dw = np.array(dw)
+            old_dw = old_dw[choose_index]
+            tem_dw = old_dw
+            for i in range(0,choose_sample):
+                map_index = choose_index[i]
+                if test_labels[i] == dataset_m[map_index, dims[1]-1]:
+                    tem_dw[i] = tem_dw[i] * err / (1-err)
+
+
+            new_dw = tem_dw * sum(old_dw) / sum(tem_dw)
+
+            # update data weights
+            for i in range(0,choose_sample):
+                map_index = choose_index[i]
+                dw[map_index] = new_dw[i]
+
+
+
+    t_dims = t_dataset_m.shape
+    test_res = t_dims[0] * [-1]
+    for sam_index in range(0,t_dims[0]):
+        features = t_dataset_m[sam_index,0:t_dims[1]-1]
+        class_w = [0] * class_num
+        for clf_index in range(0,k):
+
+            current_class = assign_label1( k_classifiers[clf_index], features,1)
+            
+            #pdb.set_trace()
+            class_w[int(current_class)] = class_w[int(current_class)] + clfw[clf_index]
+
+        #pdb.set_trace()
+        biggest_index = class_w.index(max(class_w))
+        test_res[sam_index] = biggest_index
+
+    return test_res
+
+
+
+
+
+
+
+###########     main program for demo ####################
+filename_d4 = "project3_dataset4.txt"
+dataset4 = create_dataset(filename_d4)
+dataset4_m = np.matrix(dataset4)
+dims4 = dataset4_m.shape
+feature_type4 = [1] * 4
+
+data4_tree = []
+threshold_impurity = 0
+data4_root = TreeNode(0,[],range(0,dims4[0]),feature_type4)
+data4_tree.append(data4_root)
+data4_root_impurity = data4_tree[0].classification_error(dataset4_m)
+data4_tree = data4_tree[0].hunt(dataset4_m, data4_root_impurity, data4_tree, threshold_impurity)
+treenode_list_label(data4_tree, dataset4_m)
+print len(data4_tree)
+print 'print tree'
+print_tree(data4_tree,1)
+
+pdb.set_trace()
+
+
+############   main program ##############################
+filename = "project3_dataset2.txt"
 dataset = create_dataset(filename)
 dataset_m = np.matrix(dataset)
 dims = dataset_m.shape
@@ -404,10 +571,16 @@ random.shuffle(all_index)
 dataset_new_s = dataset_new[all_index,:]
 
 
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10)
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,1,5)
 print performance
 print perf_sum
 pdb.set_trace()
+
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,2,5)
+print performance
+print perf_sum
+pdb.set_trace()
+
 
 
 # run on part samples
