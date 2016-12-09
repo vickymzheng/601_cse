@@ -168,7 +168,7 @@ class TreeNode:
 
 
 ############### other functions #####################
-def assign_label1( treenode_list, features,pdb_check):
+def assign_label1( treenode_list, features):
     mylabel = treenode_list[0].nodelabel
     this_node = treenode_list[0]
     
@@ -194,7 +194,7 @@ def assign_labels(treenode_list, test_index, dataset_m):
     for i in range(0,num):
         
         features = dataset_m[ test_index[i] ,0:dims[1]-1]
-        mylabels[i] = assign_label1( treenode_list, features,0)
+        mylabels[i] = assign_label1( treenode_list, features)
 
     return mylabels
 
@@ -410,11 +410,11 @@ def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
         
         
             test_labels = assign_labels(treenode_list, test_index, dataset_m)
-            
+        
         if test_method == 2:
             print " cross validation for round ", i+1
             #pdb.set_trace()
-            test_labels = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], boosting_clf_num, 0.8)
+            [test_labels,k_classifiers,dw,clfw] = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], boosting_clf_num, 0.8)
             print "\n\n"
         
         
@@ -505,24 +505,27 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
                 dw[map_index] = new_dw[i]
 
 
+    if t_dataset_m != []:
+        t_dims = t_dataset_m.shape
+        test_res = t_dims[0] * [-1]
+        for sam_index in range(0,t_dims[0]):
+            features = t_dataset_m[sam_index,0:t_dims[1]-1]
+            class_w = [0] * class_num
+            for clf_index in range(0,k):
 
-    t_dims = t_dataset_m.shape
-    test_res = t_dims[0] * [-1]
-    for sam_index in range(0,t_dims[0]):
-        features = t_dataset_m[sam_index,0:t_dims[1]-1]
-        class_w = [0] * class_num
-        for clf_index in range(0,k):
-
-            current_class = assign_label1( k_classifiers[clf_index], features,1)
+                current_class = assign_label1( k_classifiers[clf_index], features)
             
-            #pdb.set_trace()
-            class_w[int(current_class)] = class_w[int(current_class)] + clfw[clf_index]
+                #pdb.set_trace()
+                class_w[int(current_class)] = class_w[int(current_class)] + clfw[clf_index]
 
-        #pdb.set_trace()
-        biggest_index = class_w.index(max(class_w))
-        test_res[sam_index] = biggest_index
+                #pdb.set_trace()
+            biggest_index = class_w.index(max(class_w))
+            test_res[sam_index] = biggest_index
 
-    return test_res
+    if t_dataset_m == []:
+        test_res = []
+
+    return [test_res,k_classifiers,dw,clfw]
 
 
 
