@@ -405,7 +405,8 @@ def kCrossVal4(samples,k):
 
 	return performance 
 
-fileName = "project3_dataset2.txt"
+fileName = "project3_dataset4.txt"
+print "Running Naive Bayes on file: " + fileName
 demo = False
 if (int(fileName[16]) == 4):
 	demo = True
