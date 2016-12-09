@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 DEC 2016 15:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 DEC 2016 16:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1101,10 +1101,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 136--141
 
 [3] [4] (/Users/Vicky/601_cse/proj3/report/Project3.aux) ) 
 Here is how much of TeX's memory you used:
- 22058 strings out of 493014
- 442950 string characters out of 6133351
- 434112 words of memory out of 5000000
- 25237 multiletter control sequences out of 15000+600000
+ 22059 strings out of 493014
+ 442960 string characters out of 6133351
+ 434116 words of memory out of 5000000
+ 25238 multiletter control sequences out of 15000+600000
  101766 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,11n,45p,10412b,378s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1116,8 +1116,8 @@ fonts/type1/public/fourier/fourier-mlit.pfb></usr/local/texlive/2016/texmf-dist
 fonts/type1/adobe/utopia/putb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/adobe/utopia/putr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/ad
 obe/utopia/putri8a.pfb>
-Output written on /Users/Vicky/601_cse/proj3/report/Project3.pdf (4 pages, 5753
-5 bytes).
+Output written on /Users/Vicky/601_cse/proj3/report/Project3.pdf (4 pages, 5817
+1 bytes).
 PDF statistics:
  45 PDF objects out of 1000 (max. 8388607)
  32 compressed objects within 1 object stream
