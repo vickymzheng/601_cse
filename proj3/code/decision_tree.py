@@ -59,7 +59,7 @@ class TreeNode:
 
 
 
-    def hunt(self, dataset_m, my_impurity, treenode_list, threshold_impurity):
+    def hunt(self, dataset_m, my_impurity, treenode_list, threshold_impurity, random_select_F):
         self.condition_threshold = threshold_impurity
         self.condition_feature = -1
         self.single_uf = -1
@@ -72,8 +72,17 @@ class TreeNode:
             include_Sample_data_a = np.array(include_Sample_data)
             min_impurity = my_impurity
             
+            if random_select_F == 0:
+                f_can = range(0,dims[1]-1)
+            else:
+                random_num =  int ((dims[1] - 1) * 0.5)
+                f_can = range(0,dims[1]-1)
+                random.shuffle(f_can)
+                f_can = f_can[0:random_num]
             
-            for i in range(0,dims[1]-1):
+            
+            #for i in range(0,dims[1]-1):
+            for i in f_can:
                 feature = include_Sample_data_a[:,i]
                 unique_feature = set(feature)
                 for uf in unique_feature:
@@ -141,7 +150,7 @@ class TreeNode:
                 for i in range(0,2): # recursion for child nodes
                     test_node = treenode_list[self.children_list[i]]
                     # def hunt(self, dataset_m, my_impurity, treenode_list, threshold_impurity):
-                    treenode_list = test_node.hunt( dataset_m,test_node.classification_error(dataset_m), treenode_list, threshold_impurity)
+                    treenode_list = test_node.hunt( dataset_m,test_node.classification_error(dataset_m), treenode_list, threshold_impurity, random_select_F)
 
         return treenode_list
 
@@ -320,6 +329,9 @@ def print_tree(treenode_list, detail=1):
         node_num = len(treenode_list)
         for i in range(0,node_num):
             thisnode = treenode_list[i]
+            if thisnode.children_list != []:
+                print "node " , thisnode.node_index+1, 'use attribute ', thisnode.condition_feature, ' to split and 2 way splitting condition is ' , thisnode.single_uf ,' and other'
+
             print "node " , thisnode.node_index+1, 'includes samples ', thisnode.include_samples
 
 
@@ -368,7 +380,7 @@ def calcPerformance(ground_truth, mylabels):
 
 
 
-def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
+def kCrossVal(dataset_m, feature_type,K, test_method, clf_num):
     k = K
     dims = dataset_m.shape
     numSamples = dims[0]
@@ -402,7 +414,7 @@ def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
             root = TreeNode(0,[],train_index,feature_type)
             treenode_list.append(root)
             root_impurity = treenode_list[0].classification_error(dataset_m)
-            treenode_list = treenode_list[0].hunt(dataset_m, root_impurity, treenode_list, threshold_impurity)
+            treenode_list = treenode_list[0].hunt(dataset_m, root_impurity, treenode_list, threshold_impurity,0)
             treenode_list_label(treenode_list, dataset_m)
 
             #for i in range(0,len(treenode_list)):
@@ -412,11 +424,15 @@ def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
             test_labels = assign_labels(treenode_list, test_index, dataset_m)
         
         if test_method == 2:
-            print " cross validation for round ", i+1
+            print " boosting cross validation for round ", i+1
             #pdb.set_trace()
-            [test_labels,k_classifiers,dw,clfw] = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], boosting_clf_num, 0.8)
+            [test_labels,k_classifiers,dw,clfw] = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], clf_num, 0.8)
             print "\n\n"
         
+        if test_method == 3:
+            print "random forest cross validation for round ", i+1
+            [test_labels,k_classifiers] = RandomForest(train_data_m, test_data_m, feature_type, [0,1],clf_num, 0.8)
+            print "\n\n"
         
         
         
@@ -430,6 +446,51 @@ def kCrossVal(dataset_m, feature_type,K, test_method, boosting_clf_num):
 
     perf_sum = perf_sum * 1.0 / k
     return [performance, perf_sum]
+
+
+def RandomForest(dataset_m, t_dataset_m, feature_type, classes,k, train_rates): # k is the number of trees in the forest
+    dims = dataset_m.shape
+    class_num = len(classes)
+    k_classifiers = []
+    choose_sample = int( train_rates * dims[0])
+
+    while (len(k_classifiers) != k):
+        choose_index = np.random.choice( range(0,dims[0]), size=choose_sample, replace=True)
+        D = dataset_m[ choose_index, :]
+
+        treenode_list = []
+        threshold_impurity = 0
+        root = TreeNode(0,[],range(0,choose_sample),feature_type)
+        treenode_list.append(root)
+        root_impurity = treenode_list[0].classification_error(D)
+        treenode_list = treenode_list[0].hunt(D, root_impurity, treenode_list, threshold_impurity,1)
+        treenode_list_label(treenode_list, D)
+
+        k_classifiers.append(treenode_list)
+
+
+
+    if t_dataset_m != []:
+        t_dims = t_dataset_m.shape
+        test_res = t_dims[0] * [-1]
+        for sam_index in range(0,t_dims[0]):
+            features = t_dataset_m[sam_index,0:t_dims[1]-1]
+            class_w = [0] * class_num
+            for clf_index in range(0,k):
+                
+                current_class = assign_label1( k_classifiers[clf_index], features)
+                class_w[int(current_class)] = class_w[int(current_class)] + 1
+            
+
+            biggest_index = class_w.index(max(class_w))
+            test_res[sam_index] = biggest_index
+
+    if t_dataset_m == []:
+        test_res = []
+    
+    return [test_res,k_classifiers]
+
+
 
 
 def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
@@ -462,7 +523,7 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
         root = TreeNode(0,[],range(0,choose_sample),feature_type)
         treenode_list.append(root)
         root_impurity = treenode_list[0].classification_error(D)
-        treenode_list = treenode_list[0].hunt(D, root_impurity, treenode_list, threshold_impurity)
+        treenode_list = treenode_list[0].hunt(D, root_impurity, treenode_list, threshold_impurity,0)
         treenode_list_label(treenode_list, D)
 
         # compute Err(M)
@@ -534,24 +595,24 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
 
 
 ###########     main program for demo ####################
-filename_d4 = "project3_dataset4.txt"
-dataset4 = create_dataset(filename_d4)
-dataset4_m = np.matrix(dataset4)
-dims4 = dataset4_m.shape
-feature_type4 = [1] * 4
-
-data4_tree = []
-threshold_impurity = 0
-data4_root = TreeNode(0,[],range(0,dims4[0]),feature_type4)
-data4_tree.append(data4_root)
-data4_root_impurity = data4_tree[0].classification_error(dataset4_m)
-data4_tree = data4_tree[0].hunt(dataset4_m, data4_root_impurity, data4_tree, threshold_impurity)
-treenode_list_label(data4_tree, dataset4_m)
-print len(data4_tree)
-print 'print tree'
-print_tree(data4_tree,1)
-
-pdb.set_trace()
+#filename_d4 = "project3_dataset4.txt"
+#dataset4 = create_dataset(filename_d4)
+#dataset4_m = np.matrix(dataset4)
+#dims4 = dataset4_m.shape
+#feature_type4 = [1] * 4
+#
+#data4_tree = []
+#threshold_impurity = 0
+#data4_root = TreeNode(0,[],range(0,dims4[0]),feature_type4)
+#data4_tree.append(data4_root)
+#data4_root_impurity = data4_tree[0].classification_error(dataset4_m)
+#data4_tree = data4_tree[0].hunt(dataset4_m, data4_root_impurity, data4_tree, threshold_impurity,0)
+#treenode_list_label(data4_tree, dataset4_m)
+#print len(data4_tree)
+#print 'print tree'
+#print_tree(data4_tree,1)
+#
+#pdb.set_trace()
 
 
 ############   main program ##############################
@@ -567,12 +628,20 @@ else:
 
 # process continous feature
 dataset_new = easy_process(dataset_m, dims, feature_type,5)
-pdb.set_trace()
 # shuffle dataset_new for cross validation
 all_index = range(0,dims[0])
 random.shuffle(all_index)
 dataset_new_s = dataset_new[all_index,:]
+pdb.set_trace()
 
+[test_res,k_classifiers] = RandomForest(dataset_m, [], feature_type, [0,1],5, 0.8)
+
+pdb.set_trace()
+
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,3,5)
+print performance
+print perf_sum
+pdb.set_trace()
 
 [performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,1,5)
 print performance
@@ -596,7 +665,7 @@ threshold_impurity = 0
 root = TreeNode(0,[],range(0,dims[0]),feature_type)
 treenode_list.append(root)
 root_impurity = treenode_list[0].classification_error(dataset_new)
-treenode_list = treenode_list[0].hunt(dataset_new, root_impurity, treenode_list, threshold_impurity)
+treenode_list = treenode_list[0].hunt(dataset_new, root_impurity, treenode_list, threshold_impurity,0)
 treenode_list_label(treenode_list, dataset_new)
 print len(treenode_list)
 print 'print tree'
