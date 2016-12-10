@@ -5,5 +5,8 @@ kNN.py contains our implementation of Nearest Neighbors. The input file can be m
 bayes.py contains our implementation of Naive Bayes. The input file can be modified on line 408. The program can be run with the command "python bayes.py." The program prints out the Accuracy, precision, recall and F value.  
 
 
-decision_tree.py contains our implementation of decision tree with prepruning and boosting( function Adaboosting) and k-fold cross validation for regular decision tree and boosting. The program can be run with the command "python decision_tree.py." The program prints out the Accuracy, precision, recall and F value for each round of cross validation as well as their average. It can also print out the structure of the learned decision tree and details of each tree node.  
+decision_tree.py contains our implementation of decision tree with prepruning, random forest and boosting( function Adaboosting) and k-fold cross validation for them. The program can be run with the command "python decision_tree.py." The program prints out the Accuracy, precision, recall and F value for each round of cross validation as well as their average. It can also print out the structure of the learned decision tree and details of each tree node.
+In decision_tree.py, the main program runs k fold cross validation on decision tree, random forest and boosting. We can change the following variables:
+# filename, bin_num(used to discretize continuous attributes into bins), k_fold, ensemble_num(number of classifiers in the ensemble for random forest and boosting).
+Demo part gives an example on how to build decision trees, runing random forest and boosting
 
