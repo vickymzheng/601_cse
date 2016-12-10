@@ -147,6 +147,8 @@ $P(X|H_i)$,the descriptor posterior probability, can be calculated by:
 
 \noindent I chose to use this method because it seemed to be one of the most popular methods out there for dealing with continuous values when implementing Naive Bayes. 
 
+\noindent After we calculate $P(H_i|X) = \frac{P(H_i)P(X|H_i)}{P(X)}$ for all $H_i$, we assign X to the class $H_i$ where $P(H_i|X)$ is the maximum probability.
+
 \subsection{Pros and Cons}
 Some of the pros of using Naive bayes is that its simple to implement and it is efficent. One of the cons, however, is that it assumes attribute independence, which of course is not true for all datasets. Another con is that the descriptor posterior probability may evaluate to 0 - we have to prevent this by using a Laplacian correction. This can happen often in small datasets so Naive bayes performs best on large datasets. 
 
