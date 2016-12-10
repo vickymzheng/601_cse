@@ -286,32 +286,27 @@ def create_dataset(filename):
 
     return dataset
 
-
+#################################################
+#             function: easy_process            #
+# biscretize continuous attributes into k bins  #
+#################################################
 def easy_process(dataset_m, dims, feature_type,k):
     new_dataset = dataset_m
     dataset_m_a = np.array(dataset_m)
     
     for i in range(0,dims[1]-1):
+        print "processing feature index", i
         if feature_type[i] == 0:
             feature = dataset_m_a[:,i]
             bins = np.linspace(min(feature), max(feature), k+1)
             digitized = np.digitize(feature, bins)
-            max_index = list(digitized).index(k+1)
+            #max_index = list(digitized).index(k+1)
+            max_index = np.where(np.array(digitized) == k+1)[0]
             digitized[max_index] = k
             digitized = digitized - 1
             
             for j in range(0, len(digitized)):
                 new_dataset[j,i] = digitized[j]
-#            average = np.mean(feature)
-#            tem = np.zeros(dims[0])
-#            larger_index_tem =  map(lambda x: x > average, feature)
-#            larger_index = np.where(np.array(larger_index_tem) == True)[0]
-#            smaller_index = np.where(np.array(larger_index_tem) == False)[0]
-#        
-#            for l in larger_index:
-#                new_dataset[l,i] = 1
-#            for s in smaller_index:
-#                new_dataset[s,i] = 0
 
 
     return new_dataset
@@ -426,12 +421,12 @@ def kCrossVal(dataset_m, feature_type,K, test_method, clf_num):
         if test_method == 2:
             print " boosting cross validation for round ", i+1
             #pdb.set_trace()
-            [test_labels,k_classifiers,dw,clfw] = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], clf_num, 0.8)
+            [test_labels,k_classifiers,dw,clfw] = AdaBoosting(train_data_m, test_data_m, feature_type, [0,1], clf_num, 1)
             print "\n\n"
         
         if test_method == 3:
             print "random forest cross validation for round ", i+1
-            [test_labels,k_classifiers] = RandomForest(train_data_m, test_data_m, feature_type, [0,1],clf_num, 0.8)
+            [test_labels,k_classifiers] = RandomForest(train_data_m, test_data_m, feature_type, [0,1],clf_num, 1)
             print "\n\n"
         
         
@@ -616,42 +611,43 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
 
 
 ############   main program ##############################
-filename = "project3_dataset2.txt"
+filename = "project3_dataset1.txt"
 dataset = create_dataset(filename)
 dataset_m = np.matrix(dataset)
 dims = dataset_m.shape
 
 if filename == "project3_dataset2.txt":
     feature_type = [0,0,0,0,1,0,0,0,0]
+elif filename == "project3_dataset2=4.txt":
+    feature_type = [1] * 4
 else:
-    feature_type = np.zeros(dims[1]-1)
+    feature_type = [0]*(dims[1]-1)
 
 # process continous feature
-dataset_new = easy_process(dataset_m, dims, feature_type,5)
+bin_num = 5
+dataset_new = easy_process(dataset_m, dims, feature_type,bin_num)
 # shuffle dataset_new for cross validation
 all_index = range(0,dims[0])
 random.shuffle(all_index)
 dataset_new_s = dataset_new[all_index,:]
 pdb.set_trace()
 
-[test_res,k_classifiers] = RandomForest(dataset_m, [], feature_type, [0,1],5, 0.8)
+#[test_res,k_classifiers] = RandomForest(dataset_m, [], feature_type, [0,1],5, 0.8)
+#
+#pdb.set_trace()
 
-pdb.set_trace()
-
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,3,5)
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,1,10)
 print performance
 print perf_sum
-pdb.set_trace()
 
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,1,5)
+
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,2,10)
 print performance
 print perf_sum
-pdb.set_trace()
 
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,2,5)
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,3,10)
 print performance
 print perf_sum
-pdb.set_trace()
 
 
 
@@ -660,18 +656,19 @@ pdb.set_trace()
 #mydataset = dataset_new[choose_sample,:]
 #mydim = mydataset.shape
 
-treenode_list = []
-threshold_impurity = 0
-root = TreeNode(0,[],range(0,dims[0]),feature_type)
-treenode_list.append(root)
-root_impurity = treenode_list[0].classification_error(dataset_new)
-treenode_list = treenode_list[0].hunt(dataset_new, root_impurity, treenode_list, threshold_impurity,0)
-treenode_list_label(treenode_list, dataset_new)
-print len(treenode_list)
-print 'print tree'
-print_tree(treenode_list,1)
-pdb.set_trace()
-print 'the end'
+#treenode_list = []
+#threshold_impurity = 0
+#root = TreeNode(0,[],range(0,dims[0]),feature_type)
+#treenode_list.append(root)
+#root_impurity = treenode_list[0].classification_error(dataset_new)
+#treenode_list = treenode_list[0].hunt(dataset_new, root_impurity, treenode_list, threshold_impurity,0)
+#treenode_list_label(treenode_list, dataset_new)
+#print len(treenode_list)
+#print 'print tree'
+#print_tree(treenode_list,1)
+#pdb.set_trace()
+#print 'the end'
+
 #treenode_list[0].print_nodes(treenode_list,0)
 #
 #print 'node label init'
