@@ -48,4 +48,4 @@ def randomClassifer(fileName):
 		
 	calcPerformance(samples)
 
-randomClassifer("project3_dataset1.txt")
+randomClassifer("project3_dataset2.txt")

@@ -352,9 +352,28 @@ I implemented k-cross fold by randomly shuffling my dataset, and partitioning it
 \textbf{Recall}: 0.761451858741\\
 \textbf{F}: 0.612021438585\\
 
+\section{Random Classification}
+In order to test the performance of our algorithm implementations, we also compared it to a random classifier. All our random classifier does is randomly assign classes. Below is the performance of the random classifier: \\
+
+\noindent \underline{Results for project3 dataset1.txt are}: \\ 
+\textbf{Accuracy}: 0.488576449912\\
+\textbf{Precision}: 0.357400722022\\
+\textbf{Recall}: 0.466981132075\\
+\textbf{F}: 0.40490797546\\
+
+\noindent \underline{Results for project3 dataset2.txt are}:\\
+\textbf{Accuracy}: 0.460456942004\\
+\textbf{Precision}: 0.350157728707\\
+\textbf{Recall}: 0.52358490566\\
+\textbf{F}: 0.41965973535\\
+
+All of our implementations outperformed random classification. 
+
 
 \section{Other clarification}
 When calculating scores like recall, precision and F score, we may come across "divided by zero" problem. For example, to compute precision = $  \frac{truePositive}{truePositive + falsePositive}$, if the denominator is 0, it means both truePositive and falsePositive are 0, and truePositive is the numerator then we can just assign precision as 0. We solved "divided by zero" problem similarly for recall and F score.
+ 
+
  \begin{thebibliography}{1}
  \bibitem{textbook}
  Han, Jiawei, Jian Pei, and Micheline Kamber. Data mining: concepts and techniques. Elsevier, 2011.
