@@ -1,6 +1,6 @@
 For all of the following implementations, please make sure you have the dataset in the same folder you are calling the function. 
 
-kNN.py contains our implementation of Nearest Neighbors. The input file can be modified on line 97. The input file should be in .csv format. The program can be run with the command "python kNN.py" The program prints out the Accuracy, precision, recall and F value.  
+kNN.py contains our implementation of Nearest Neighbors. The input file can be modified on line 97. You can also change the value of k on line 57. The input file should be in .csv format. The program can be run with the command "python kNN.py" The program prints out the Accuracy, precision, recall and F value.  
 
 bayes.py contains our implementation of Naive Bayes. The input file can be modified on line 408. The program can be run with the command "python bayes.py." The program prints out the Accuracy, precision, recall and F value.  
 
