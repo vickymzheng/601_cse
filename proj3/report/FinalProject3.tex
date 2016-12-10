@@ -109,9 +109,25 @@ If we have nominal data, we need to label the nominal value first and then calcu
 \noindent The above value is the optimal solution I get, k = 4
 \section{Decision Tree}
 \subsection{Algorithm Description}
-Decision Tree is a supervised learning method for classification. The goal is to createa tree structured model that predicts the class of a test sample by learning decisionrules inferred from the data features. The decision rules are represented as internalnodes in the tree. Each internal node denotes a test on an attribute, each branch denotesthe outcome of a test, and each leaf node holds a class label. When a new testsample is needed to be classified, it goes down the decision tree from root to a leafnode according to the rules stored in internal nodes and it's class label is determinedby the label stored in the leaf node. We implemented a 2-way-splitting decision treewith prepruning.
+Decision Tree is a supervised learning method for classification. The goal is to create
+a tree structured model that predicts the class of a test sample by learning decision
+rules inferred from the data features. The decision rules are represented as internal
+nodes in the tree. Each internal node denotes a test on an attribute, each branch denotes
+the outcome of a test, and each leaf node holds a class label. When a new test
+sample is needed to be classified, it goes down the decision tree from root to a leaf
+node according to the rules stored in internal nodes and it's class label is determined
+by the label stored in the leaf node. We implemented a 2-way-splitting decision tree
+with prepruning.
 \subsection{Implementation}
-\paragraph{Preprocessing}In preprocessing, we made all attributes of different types to beprocessable. For nominal attributes, we numbered them to make implementation easier. For example in dataset2, "Absent" was labeled as 0 and "Present" was labeled as 1. For continuous attributes, we discretized each of them into k bins and thechoice of k can be inferred by cross validation. A sample's feature is labeled 0 ifit's in the 1st bin, 1 if it's in the 2nd bin, 2 if it's in the 3rd bin and so on so forth,until k-1 if it's in the kth bin. And it becomes an ordinal attribute because sampleslabeled 0( landed in the 1st bin) are smaller than those labeled 1(landed in the 2ndbin). So the order is: samples labeled 0 < samples labeled 1 < ... < samples labeledk-1. Ordinal attributes can also be labeled as integers accordingly. As a result, afterpreprocessing, all features will be represented as integers.
+\paragraph{Preprocessing}In preprocessing, we made all attributes of different types to be
+processable. For nominal attributes, we numbered them to make implementation easier. For example in dataset2, "Absent" was labeled as 0 and "Present" was labeled as 1. For continuous attributes, we discretized each of them into k bins and the
+choice of k can be inferred by cross validation. A sample's feature is labeled 0 if
+it's in the 1st bin, 1 if it's in the 2nd bin, 2 if it's in the 3rd bin and so on so forth,
+until k-1 if it's in the kth bin. And it becomes an ordinal attribute because samples
+labeled 0( landed in the 1st bin) are smaller than those labeled 1(landed in the 2nd
+bin). So the order is: samples labeled 0 < samples labeled 1 < ... < samples labeled
+k-1. Ordinal attributes can also be labeled as integers accordingly. As a result, after
+preprocessing, all features will be represented as integers.
 
 \begin{figure}[t]
   \centering
@@ -119,7 +135,12 @@ Decision Tree is a supervised learning method for classification. The goal is to
   \caption{2 way splitting example}
 \end{figure}
 
-\paragraph{Splitting criterion} We used 2-way splitting to split tree nodes when it's neededand we used misclassification error to compute the impurity of parent and childrennodes so as to choose the best splits. At tree node i, we tried out all possible 2-way splits: we tried each attribute(f) and attribute value(fv) combination. And wecomputed their corresponding impurity IMP: IMP = p * misclassificationError(leftChild) + (1-p) *misclassificationError(rightChild). p = $\frac{left{\_}node{\_}size}{parent{\_}node{\_}size}$. We got the minimum IMP and the corresponding feature f used to split as well as thesingle feature value fv for one child node. In example Figure 2.1,  f is "CarType" and fv is "Family".
+\paragraph{Splitting criterion} We used 2-way splitting to split tree nodes when it's needed
+and we used misclassification error to compute the impurity of parent and children
+nodes so as to choose the best splits. At tree node i, we tried out all possible 2-
+way splits: we tried each attribute(f) and attribute value(fv) combination. And we
+computed their corresponding impurity IMP: IMP = p * misclassificationError(leftChild) + (1-p) *misclassificationError(rightChild). p = $\frac{left{\_}node{\_}size}{parent{\_}node{\_}size}$. We got the minimum IMP and the corresponding feature f used to split as well as the
+single feature value fv for one child node. In example Figure 2.1,  f is "CarType" and fv is "Family".
 
 \paragraph{Terminating Criterion} The terminating criterions we used are listed below:
 \begin{enumerate}
@@ -130,20 +151,38 @@ Decision Tree is a supervised learning method for classification. The goal is to
   \item the node's impurity is smaller than the threshold impurity (prepruning)
 \end{enumerate}
 
-When the threshold impurity is not 0, some nodes, whose impurity is smallerthan the threshold impurity, will stop splitting and become leaf nodes even thoughthey don't fulfill the first 4 criterions. Because the pruning doesn't happen after a fulltree is grown, this kind of pruning is called prepruning. When the threshold impurityis 0, pruning is disabled.
+When the threshold impurity is not 0, some nodes, whose impurity is smaller
+than the threshold impurity, will stop splitting and become leaf nodes even though
+they don't fulfill the first 4 criterions. Because the pruning doesn't happen after a full
+tree is grown, this kind of pruning is called prepruning. When the threshold impurity
+is 0, pruning is disabled.
 
-If a node meets Criterion 4, it means no matter how we split the node, the resultingimpurity is always bigger than the original impurity. So, we think it is notworthwhile to split this node. According to our experiments, a lot of leaf nodes withonly one sample will be created if we delete Criterion 4.
+If a node meets Criterion 4, it means no matter how we split the node, the resulting
+impurity is always bigger than the original impurity. So, we think it is not
+worthwhile to split this node. According to our experiments, a lot of leaf nodes with
+only one sample will be created if we delete Criterion 4.
 
-Except Criterion 1, all the other criterions may create leaf nodes whose class labelsare heterogeneous. We used majority vote to assign the label of heterogeneouslylabeled leaf nodes.
+Except Criterion 1, all the other criterions may create leaf nodes whose class labels
+are heterogeneous. We used majority vote to assign the label of heterogeneously
+labeled leaf nodes.
 
-\paragraph{Key function usage}  We designed three key functions to finish the pipeline ofdecision tree classification. The input parameters are omitted for better readabilityin the report.
+\paragraph{Key function usage}  We designed three key functions to finish the pipeline of
+decision tree classification. The input parameters are omitted for better readability
+in the report.
 \begin{enumerate}
   \item hunt(): learn the tree structure
   \item treenode{\_}list{\_}label(): majority vote each leaf node and get leaf node class labels
-  \item assign{\_}labels(): classify new test samples according to the learned decisiontree
+  \item assign{\_}labels(): classify new test samples according to the learned decision
+tree
 \end{enumerate}
 
-\paragraph{Tree presentation}Our tree presentation is very humble. The tree grows from left to right: the root ofthe leftmost node and each colunm is one level of the tree. For each internal node,it follows the format of "[parent{\_}id] my{\_}id". For the root node, it's parent{\_}id is 0.For each leaf node, it follows the format of "[parent{\_}id] my{\_}id:classLabel". Since forProject 3, we only deal with 2 classes, leaf nodes are either "[parent{\_}id] my{\_}id:0" or"[parent{\_}id] my{\_}id:1". We can also print out the samples each node includes as wellas internal nodes's splitting conditions. The following photo is an example. In the example Figure 2.2, node 1 is the root and it has 2 children node 2 and node 3;
+\paragraph{Tree presentation}Our tree presentation is very humble. The tree grows from left to right: the root of
+the leftmost node and each colunm is one level of the tree. For each internal node,
+it follows the format of "[parent{\_}id] my{\_}id". For the root node, it's parent{\_}id is 0.
+For each leaf node, it follows the format of "[parent{\_}id] my{\_}id:classLabel". Since for
+Project 3, we only deal with 2 classes, leaf nodes are either "[parent{\_}id] my{\_}id:0" or
+"[parent{\_}id] my{\_}id:1". We can also print out the samples each node includes as well
+as internal nodes's splitting conditions. The following photo is an example. In the example Figure 2.2, node 1 is the root and it has 2 children node 2 and node 3;
 node 1 is not a leaf node, so  it doesn't have the part ':0.0' or ':1.0';
 node 2 is the leaf node and all data that goes to this node is labeled as 0;
 node 3 is also a leaf node and all data that goes to this node is labeled as 1.
@@ -168,10 +207,10 @@ Without pruning, the full tree can be complicated and overfitting.
 10 fold  cross validation average scores, bin size is 5.
 \\
 \noindent \underline{ Results for project3 dataset1.txt are}: \\ 
-\textbf{Accuracy}: 0.87142857\\
-\textbf{Precision}: 0.98375\\
-\textbf{Recall}: 0.65409125\\
-\textbf{F}: 0.77726096\\
+\textbf{Accuracy}: 0.81071429\\
+\textbf{Precision}: 0.8748324\\
+\textbf{Recall}: 0.57385281\\
+\textbf{F}: 0.63581657\\
 
 \noindent \underline{ Results for project3 dataset2.txt are}: \\ 
 \textbf{Accuracy}: 0.65217391\\
@@ -179,7 +218,10 @@ Without pruning, the full tree can be complicated and overfitting.
 \textbf{Recall}: 0.08718615\\
 \textbf{F}: 0.13374561\\
 
-The following is a small experiment on the effect of prepruning. For dataset2, if the threshold impurity is 0, we will have 49 nodes in the learned decision tree( the result  figure is big, so we exclude this figure). While when threshold is 0.3, there are  39 nodes and when threshold is 0.34, there are 23 nodes.
+For dataset2, there are some cross validation rounds get 0 for recall and F scores,  yielding very small averages. 
+\\
+
+The following is a small experiment on the effect of prepruning. For dataset2, if the threshold impurity is 0, we will have 49 nodes in the learned decision tree( the result  figure is big, so we exclude this figure). While when threshold is 0.3, there are  39 nodes and when threshold is 0.34, there are 23 nodes. As can be seen, more subbranches are cut when threshold impurity gets bigger.
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\linewidth,height=7cm]{dataset2_threshold_3.png}
@@ -195,13 +237,20 @@ The following is a small experiment on the effect of prepruning. For dataset2, i
 
 \section{Decision Tree with Random Forest}
 \subsection{Algorithm Description}
-Decision tree with random forest is an ensemble learning method for classification.Random forests can be built using bagging with random attribute selection at eachsplitting node. For bagging, we randomly picked the same number of samples as thetraining dataset with replacement and this is one round. We repeated the process forn times and each round will generate a decision tree. We will get n decision trees inthe end and the class of a new test sample is determined by the equally weightedvoting among all learned decision trees.
+Decision tree with random forest is an ensemble learning method for classification.
+Random forests can be built using bagging with random attribute selection at each
+splitting node. For bagging, we randomly picked the same number of samples as the
+training dataset with replacement and this is one round. We repeated the process for
+n times and each round will generate a decision tree. We will get n decision trees in
+the end and the class of a new test sample is determined by the equally weighted
+voting among all learned decision trees.
 \subsection{Pros and Cons}
 Advantage:\\
 tend to be more  accurate\\
 no distribution assumptions\\
 robust against outliers \\
- Because random forests consider many fewer attributes for each split, they are efficienton very large databases\\
+ Because random forests consider many fewer attributes for each split, they are efficient
+on very large databases\\
  \noindent Disadvantage:\\
  less efficient sampling compared to boosting\\
  
@@ -220,9 +269,15 @@ robust against outliers \\
 \textbf{Recall}: 0.10631674\\
 \textbf{F}: 0.16529107\\
 
+We can see a performance improvement compared to the simple decision tree.\\
 \section{Decision Tree with Boosting}
 \subsection{Algorithm Description}
-Decision tree with random forest is also an ensemble learning method for classification.The main differences between boosting and Random forest is boosting doesn'thave random feature selection when building trees and the final voting process fornew samples is weighted. The weights for each classifier is affected by its weightedmisclassification error. The following pseudocode Figure 4.1 describes how we implementedboosting$\cite{textbook}$. Note when computing classifier weight $w_{i} = log\frac{1-error(M_{i})}{error(M_{i})}$, in case of "divided by zero" problem, we replaced a very small value like $1e^{-20}$ for 0 if  $error(M_{i})$= 0.
+Decision tree with random forest is also an ensemble learning method for classification.
+The main differences between boosting and Random forest is boosting doesn't
+have random feature selection when building trees and the final voting process for
+new samples is weighted. The weights for each classifier is affected by its weighted
+misclassification error. The following pseudocode Figure 4.1 describes how we implemented
+boosting$\cite{textbook}$. Note when computing classifier weight $w_{i} = log\frac{1-error(M_{i})}{error(M_{i})}$, in case of "divided by zero" problem, we replaced a very small value like $1e^{-20}$ for 0 if  $error(M_{i})$= 0.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\linewidth,height=10cm]{boosting.png}
@@ -252,7 +307,7 @@ not as robust to errors and outliers
 \textbf{Recall}: 0.39169192\\
 \textbf{F}: 0.44046561\\
 
-
+We can see a performance improvement compared to the simple decision tree.Our boosting performs better than random forest because when learning a new classifier in the ensemble, it tends to choose data samples that are misclassified in previous rounds and it uses weighted voting rather than majority vote in random forest.\\
 \section{Naive Bayes}
 \subsection{Algorithm Description}
 Naive bayes is a classification algorithm that is based on the Bayes Theorem. Naive bayes aims to classify the probability of a sample $X$ being in a class $H_i$ using Bayes Theorem. The Bayes theorem is:\\
