@@ -418,7 +418,7 @@ if (not demo):
 	performance = kCrossVal(samples,10)
 	printPerformance(performance)
 else: 
-	query = ["sunny", "cool", "high", "weak"] 
+	query = ["sunny", "hot", "high", "strong"] 
 	bayesQuery(samples, query)
 
 	# performance = kCrossVal4(samples,10)
