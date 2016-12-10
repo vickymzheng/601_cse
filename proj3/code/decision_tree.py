@@ -272,6 +272,10 @@ def create_dataset(filename):
             ints = [4]
             floats = []
 
+        if filename == "project3_dataset3_train.txt" or filename == "project3_dataset3_test.txt":
+            floats = [0,1,2,3]
+            ints = [4]
+
 
 
 
@@ -295,7 +299,7 @@ def easy_process(dataset_m, dims, feature_type,k):
     dataset_m_a = np.array(dataset_m)
     
     for i in range(0,dims[1]-1):
-        print "processing feature index", i
+        #print "processing feature index", i
         if feature_type[i] == 0:
             feature = dataset_m_a[:,i]
             bins = np.linspace(min(feature), max(feature), k+1)
@@ -375,8 +379,9 @@ def calcPerformance(ground_truth, mylabels):
 
 
 
-def kCrossVal(dataset_m, feature_type,K, test_method, clf_num):
+def kCrossVal(dataset_m, feature_type, K, test_method, clf_num):
     k = K
+    #pdb.set_trace()
     dims = dataset_m.shape
     numSamples = dims[0]
     sizeTestSet = numSamples/k
@@ -524,11 +529,13 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
         # compute Err(M)
         test_labels = assign_labels(treenode_list, range(0,choose_sample), D)
         err = 0
+        choose_dw = dw[choose_index]
+        choose_dw = choose_dw/sum(choose_dw)
         for i in range(0,choose_sample):
             map_index = choose_index[i]
             if test_labels[i] != dataset_m[map_index, dims[1]-1]:
-                err = err + dw[map_index]
-    
+                err = err + choose_dw[i]
+        #pdb.set_trace()
         print 'ERR(M) is', err
         # valid decision tree
         if err <= 0.5:
@@ -552,7 +559,7 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
                 if test_labels[i] == dataset_m[map_index, dims[1]-1]:
                     tem_dw[i] = tem_dw[i] * err / (1-err)
 
-
+            #pdb.set_trace()
             new_dw = tem_dw * sum(old_dw) / sum(tem_dw)
 
             # update data weights
@@ -560,6 +567,8 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
                 map_index = choose_index[i]
                 dw[map_index] = new_dw[i]
 
+            dw = dw/sum(dw)
+            #pdb.set_trace()
 
     if t_dataset_m != []:
         t_dims = t_dataset_m.shape
@@ -590,11 +599,30 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
 
 
 ###########     main program for demo ####################
-#filename_d4 = "project3_dataset4.txt"
-#dataset4 = create_dataset(filename_d4)
+#filename4 = "project3_dataset4.txt"
+#dataset4 = create_dataset(filename4)
 #dataset4_m = np.matrix(dataset4)
 #dims4 = dataset4_m.shape
 #feature_type4 = [1] * 4
+#
+#pdb.set_trace()
+#bin_num = 2
+#feature_type3 = [0] * 4
+#filename3_train ="project3_dataset3_train.txt"
+#dataset3_train = create_dataset(filename3_train)
+#dataset3_tm = np.matrix(dataset3_train)
+#dims3tr = dataset3_tm.shape
+#dataset3_trnew = easy_process(dataset3_tm, dims3tr, feature_type3,bin_num)
+#
+#filename3_test ="project3_dataset3_test.txt"
+#dataset3_test = create_dataset(filename3_test)
+#dataset3_ttm = np.matrix(dataset3_test)
+#dims3tt = dataset3_ttm.shape
+#dataset3_ttnew = easy_process(dataset3_ttm, dims3tt, feature_type3,bin_num)
+
+
+################# decision tree demo ########################
+
 #
 #data4_tree = []
 #threshold_impurity = 0
@@ -603,14 +631,51 @@ def AdaBoosting(dataset_m, t_dataset_m, feature_type, classes, k, train_rates):
 #data4_root_impurity = data4_tree[0].classification_error(dataset4_m)
 #data4_tree = data4_tree[0].hunt(dataset4_m, data4_root_impurity, data4_tree, threshold_impurity,0)
 #treenode_list_label(data4_tree, dataset4_m)
-#print len(data4_tree)
 #print 'print tree'
 #print_tree(data4_tree,1)
-#
 #pdb.set_trace()
 
 
-############   main program ##############################
+################# random forest demo ######################
+
+
+#k_fold1 = 10
+#classifier_num1 = 7
+#[performance1, perf_sum1] = kCrossVal(dataset3_trnew, feature_type3, k_fold1, 3, classifier_num1)
+##[performance1, perf_sum1] = kCrossVal(dataset4_m, feature_type4, k_fold1, 3, classifier_num1)
+#print performance1
+#print perf_sum1
+#pdb.set_trace()
+#
+#[test_res1,k_classifiers1] = RandomForest(dataset3_trnew, dataset3_ttnew, feature_type3, [0,1], classifier_num1, 1)
+##[test_res1,k_classifiers1] = RandomForest(dataset4_m, dataset4_m, feature_type4, [0,1], classifier_num1, 1)
+#calcPerformance(dataset3_ttm[:,dims3tt[1]-1], test_res1)
+##calcPerformance(dataset4_m[:,dims4[1]-1], test_res1)
+#pdb.set_trace()
+
+
+################## boosting demo ##########################
+
+#k_fold2 = 10
+#classifier_num2 = 7
+#[performance2, perf_sum2] = kCrossVal(dataset3_trnew, feature_type3, k_fold2, 2, classifier_num2)
+#print performance2
+#print perf_sum2
+#pdb.set_trace()
+#[test_res2,k_classifiers2,dw,clfw] = AdaBoosting(dataset3_trnew, dataset3_ttnew, feature_type3, [0,1], classifier_num2, 1)
+#calcPerformance(dataset3_ttm[:,dims3tt[1]-1], test_res2)
+#pdb.set_trace()
+#print 'the end'
+################# end of demo ############################
+
+############   main program #############################
+# the main program runs k fold cross validation on decision tree, random forest and boosting
+# we can change the following variables:
+# filename, bin_num(used to discretize continuous attributes into bins), k_fold, ensemble_num(number of classifiers in the ensemble for random forest and boosting)
+# the output includes:
+# performance scores([accuracy, precision, recall , F]) of each cross validation round and their averages
+# demo part gives an example on how to build decision trees, runing random forest and boosting
+
 filename = "project3_dataset1.txt"
 dataset = create_dataset(filename)
 dataset_m = np.matrix(dataset)
@@ -618,38 +683,37 @@ dims = dataset_m.shape
 
 if filename == "project3_dataset2.txt":
     feature_type = [0,0,0,0,1,0,0,0,0]
-elif filename == "project3_dataset2=4.txt":
+elif filename == "project3_dataset4.txt":
     feature_type = [1] * 4
 else:
     feature_type = [0]*(dims[1]-1)
 
 # process continous feature
 bin_num = 5
+k_fold = 10
+ensemble_num = 5
 dataset_new = easy_process(dataset_m, dims, feature_type,bin_num)
 # shuffle dataset_new for cross validation
 all_index = range(0,dims[0])
 random.shuffle(all_index)
 dataset_new_s = dataset_new[all_index,:]
-pdb.set_trace()
 
-#[test_res,k_classifiers] = RandomForest(dataset_m, [], feature_type, [0,1],5, 0.8)
-#
-#pdb.set_trace()
 
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,1,10)
+#kCrossVal(dataset_m, feature_type, K, test_method, clf_num):
+#cross validation on simple decision tree
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type, k_fold, 1,ensemble_num)
 print performance
 print perf_sum
 
-
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,2,10)
+#cross validation on random forest
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type, k_fold, 3, ensemble_num)
 print performance
 print perf_sum
 
-[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type,10,3,10)
+#cross validation on boosting
+[performance, perf_sum] = kCrossVal(dataset_new_s, feature_type, k_fold, 2, ensemble_num)
 print performance
 print perf_sum
-
-
 
 # run on part samples
 #choose_sample = range(0,300)
@@ -693,24 +757,5 @@ print perf_sum
 #    print treenode_list[i].get_leaf_label(dataset_m)
 
 
-#pdb.set_trace()
-########## test class func isleafnode ##########
-#onenode = TreeNode(0,[1],range(0,dims[0]),feature_type)
-#nodes = []
-#nodes.append(onenode)
-#onenode = TreeNode(1,[],range(0,5),feature_type)
-#nodes.append(onenode)
-##pdb.set_trace()
-#res = nodes[1].isleafnode(dataset_m)
-#print res
-#pdb.set_trace()
-#sorted_labels = onenode.test(4)
-########## end of test #########################
 
-########## test class func classification_error ####
-#pdb.set_trace()
-#error = nodes[0].classification_error(dataset_m)
-#print error
-
-########## end of test ########################
 
